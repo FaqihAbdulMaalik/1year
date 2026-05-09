@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1 Year</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A96E;
+    --gold-light: #E8D5A3;
+    --dark: #0A0A0A;
+    --dark2: #111111;
+    --dark3: #1A1A1A;
+    --white: #F5F0E8;
+    --muted: #888;
+    --accent: #C9A96E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,169,110,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  }
+
+  .hero-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 25vw, 220px);
+    line-height: 0.85;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,169,110,0.3);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+    z-index: 0;
+  }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .hero-tag {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(60px, 12vw, 100px);
+    line-height: 1;
+    color: var(--white);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+
+  .hero-title span { color: var(--gold); }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    margin-top: 48px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+
+  .btn {
+    padding: 14px 32px;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+
+  .btn-gold { background: var(--gold); color: var(--dark); }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,169,110,0.3); }
+  .btn-outline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.2); }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+  }
+
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--gold); letter-spacing: 3px; }
+
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    cursor: pointer;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  section { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+
+  .section-label { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 7vw, 72px); line-height: 1; margin-bottom: 16px; }
+
+  .divider { width: 60px; height: 1px; background: var(--gold); margin: 24px 0; }
+
+  .glow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 48px; }
+
+  .glow-card {
+    background: var(--dark3);
+    border: 1px solid rgba(201,169,110,0.1);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+  }
+
+  .glow-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 2px; height: 0;
+    background: var(--gold);
+    transition: height 0.4s;
+  }
+
+  .glow-card:hover::before { height: 100%; }
+  .glow-card:hover { border-color: rgba(201,169,110,0.3); transform: translateY(-4px); }
+
+  .card-icon { font-size: 28px; margin-bottom: 16px; display: block; }
+  .card-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--white); margin-bottom: 8px; }
+  .card-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .card-tip { margin-top: 16px; padding: 12px; background: rgba(201,169,110,0.05); border-left: 2px solid var(--gold); font-size: 12px; color: var(--gold-light); line-height: 1.6; }
+
+  .routine-week { margin-top: 48px; }
+
+  .week-day {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 20px 0;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .week-day:hover { background: rgba(201,169,110,0.03); padding-left: 12px; }
+
+  .day-label { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--gold); letter-spacing: 2px; padding-top: 2px; }
+  .day-tasks { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .task-tag { padding: 4px 12px; background: rgba(201,169,110,0.08); border: 1px solid rgba(201,169,110,0.2); font-size: 11px; color: var(--gold-light); letter-spacing: 1px; border-radius: 2px; }
+  .task-tag.rest { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); color: var(--muted); }
+
+  /* WORKOUT SECTION */
+  .workout-section { background: var(--dark2); margin: 0; padding: 100px 0; }
+  .workout-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+  .workout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2px; margin-top: 48px; }
+
+  .workout-card { background: var(--dark3); padding: 36px 32px; position: relative; overflow: hidden; transition: all 0.3s; }
+  .workout-card:hover { background: #1f1f1f; }
+
+  .workout-day-num { font-family: 'Bebas Neue', sans-serif; font-size: 72px; color: rgba(201,169,110,0.08); position: absolute; top: 10px; right: 20px; line-height: 1; }
+  .workout-day-name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--gold); letter-spacing: 3px; margin-bottom: 4px; }
+  .workout-focus { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+
+  .exercise-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .exercise-list li { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .exercise-name { color: var(--white); }
+  .exercise-sets { font-size: 11px; color: var(--gold); letter-spacing: 1px; font-weight: 600; }
+
+  .nutrition-section { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+  .nutrition-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 48px; }
+
+  .nutrition-card { padding: 28px; border: 1px solid rgba(201,169,110,0.12); background: linear-gradient(135deg, var(--dark3), var(--dark2)); transition: all 0.3s; }
+  .nutrition-card:hover { border-color: var(--gold); transform: scale(1.02); }
+
+  .nutrition-icon { font-size: 32px; margin-bottom: 12px; }
+  .nutrition-name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1px; margin-bottom: 8px; }
+  .nutrition-desc { font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .nutrition-badge { display: inline-block; margin-top: 12px; padding: 3px 10px; background: rgba(201,169,110,0.1); color: var(--gold); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+
+  .timeline { position: relative; margin-top: 60px; padding-left: 40px; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--gold), transparent); }
+
+  .timeline-item { position: relative; margin-bottom: 48px; }
+  .timeline-item::before { content: ''; position: absolute; left: -44px; top: 6px; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 12px rgba(201,169,110,0.5); }
+
+  .timeline-month { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 4px; color: var(--gold); margin-bottom: 8px; }
+  .timeline-title { font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+  .timeline-desc { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 600px; }
+
+  .tracker-section { background: var(--dark2); padding: 100px 0; }
+  .tracker-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+  .tracker-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 40px; }
+
+  .tracker-cell {
+    aspect-ratio: 1;
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: var(--muted);
+    cursor: pointer; transition: all 0.2s; border-radius: 2px;
+  }
+
+  .tracker-cell:hover { border-color: var(--gold); color: var(--gold); }
+  .tracker-cell.done { background: rgba(201,169,110,0.15); border-color: var(--gold); color: var(--gold); }
+  .tracker-cell.today { border-color: var(--gold); box-shadow: 0 0 8px rgba(201,169,110,0.3); }
+
+  .tracker-legend { display: flex; gap: 24px; margin-top: 16px; font-size: 11px; color: var(--muted); align-items: center; }
+  .legend-dot { width: 10px; height: 10px; display: inline-block; margin-right: 6px; border-radius: 2px; }
+
+  footer { text-align: center; padding: 60px 40px; border-top: 1px solid rgba(255,255,255,0.05); }
+  footer .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--gold); letter-spacing: 8px; opacity: 0.3; }
+  footer p { font-size: 12px; color: var(--muted); margin-top: 16px; letter-spacing: 2px; }
+
+  .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp 1s 1.5s forwards; }
+  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollDown 1.5s ease-in-out infinite; }
+  .scroll-text { font-size: 9px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; }
+
+  @keyframes scrollDown {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .workout-inner, .tracker-inner { padding: 0 20px; }
+    .workout-section, .tracker-section { padding: 60px 0; }
+    .tracker-grid { gap: 3px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">1 YEAR</div>
+  <ul class="nav-links">
+    <li><a onclick="scrollTo('glow')">Glow Up</a></li>
+    <li><a onclick="scrollTo('workout')">Workout</a></li>
+    <li><a onclick="scrollTo('nutrition')">Nutrition</a></li>
+    <li><a onclick="scrollTo('tracker')">Tracker</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-year">1</div>
+  <div class="hero-content">
+    <div class="hero-tag">Your Transformation Journey</div>
+    <div class="hero-title">1 <span>Year</span><br>To Better</div>
+    <div class="hero-cta">
+      <button class="btn btn-gold" onclick="scrollTo('glow')">Start My Journey</button>
+    </div>
+  </div>
+</div>
+  <div class="scroll-indicator">
+    <span class="scroll-text">Gulir</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<div id="glow">
+  <section>
+    <div class="section-label">Phase 01 — Penampilan</div>
+    <div class="section-title">Life<br>routine</div>
+    <div class="divider"></div>
+
+<div class="glow-grid">
+  <div class="glow-card">
+    <span class="card-icon">🌅</span>
+    <div class="card-title">Morning Routine</div>
+    <div class="card-text">Mulailah setiap pagi dengan sabun cuci muka, toner, dan pelembap ber-SPF. Sunscreen itu wajib — fungsinya mencegah kulit kusam dan melindungi warna asli kulitmu.</div>
+    <div class="card-tip">💡 Gunakan SPF 30–50 setiap pagi meskipun di dalam ruangan. Sinar UV yang menembus jendela tetap bisa memengaruhi kulit.</div>
+  </div>
+
+  <div class="glow-card">
+    <span class="card-icon">🌙</span>
+    <div class="card-title">Night Routine</div>
+    <div class="card-text">Bersihkan wajah dua kali, aplikasikan serum niacinamide lalu lembapkan. Malam hari adalah waktu kulit memperbaiki dirinya sendiri. Gunakan skincare dengan salicylic acid untuk kulit berjerawat & berminyak.</div>
+    <div class="card-tip">💡 Serum Niacinamide + Vitamin C adalah kombinasi terbaik untuk pemulihan kulit secara alami.</div>
+  </div>
+
+  <div class="glow-card">
+    <span class="card-icon">💧</span>
+    <div class="card-title">Hydration</div>
+    <div class="card-text">Minum minimal 2 liter air setiap hari. Kulit yang terhidrasi = warna kulit lebih bersih dan merata. Tubuh yang terhidrasi dengan baik juga meningkatkan elastisitas alami kulitmu.</div>
+    <div class="card-tip">💡 Sediakan botol air 600ml. Isi ulang 3 kali sehari. Sistem yang sangat mudah.</div>
+  </div>
+
+  <div class="glow-card">
+    <span class="card-icon">✂️</span>
+    <div class="card-title">Grooming</div>
+    <div class="card-text">Cukur rambut dengan rapi setiap 3–4 minggu. Jaga alis tetap rapi (jangan dicabut — cukup dirapikan). Jaga kebersihan kuku. Hal-hal kecil ini memberikan perbedaan visual yang sangat besar.</div>
+    <div class="card-tip">💡 Potongan rambut yang rapi saja sudah bisa mengubah cara pandang orang lain terhadapmu secara keseluruhan.</div>
+  </div>
+
+  <div class="glow-card">
+    <span class="card-icon">👕</span>
+    <div class="card-title">Style Upgrade</div>
+    <div class="card-text">Ukuran yang pas adalah segalanya. Bahkan kaus putih polos akan terlihat premium jika ukurannya pas. Warna gelap (navy, hitam, charcoal) sangat cocok untuk menonjolkan warna kulitmu.</div>
+    <div class="card-tip">💡 Investasikan pada 3–4 pakaian dasar yang ukurannya pas daripada 10 pakaian yang kebesaran.</div>
+  </div>
+
+  <div class="glow-card">
+    <span class="card-icon">🧘</span>
+    <div class="card-title">Posture & Presence</div>
+    <div class="card-text">Berdiri tegak, tarik bahu ke belakang, dagu sejajar dengan lantai. Postur tubuh mengubah bagaimana kamu terlihat DAN merasa. Latih perbaikan postur selama 5 menit setiap hari.</div>
+    <div class="card-tip">💡 Postur yang baik saja bisa membuatmu terlihat 3–5kg lebih ringan dan 3cm lebih tinggi.</div>
+  </div>
+</div>
+
+    <div style="margin-top:80px;">
+      <div class="section-label">Jadwal Harian</div>
+      <div class="section-title" style="font-size:36px;">Weekly Plan</div>
+      <div class="divider"></div>
+      <div class="routine-week">
+        <div class="week-day"><span class="day-label">MON</span><div class="day-tasks"><span class="task-tag">Chest & Triceps</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Air 2L</span></div></div>
+        <div class="week-day"><span class="day-label">TUE</span><div class="day-tasks"><span class="task-tag">Back & Biceps</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Latihan Postur</span></div></div>
+        <div class="week-day"><span class="day-label">WED</span><div class="day-tasks"><span class="task-tag">Legs & Core</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Perawatan Rambut</span></div></div>
+        <div class="week-day"><span class="day-label">THU</span><div class="day-tasks"><span class="task-tag">Shoulders & Arms</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Air 2L</span></div></div>
+        <div class="week-day"><span class="day-label">FRI</span><div class="day-tasks"><span class="task-tag">Full Body</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Cek Penampilan</span></div></div>
+        <div class="week-day"><span class="day-label">SAT</span><div class="day-tasks"><span class="task-tag">Cardio / Walk</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Perencanaan Gaya</span></div></div>
+        <div class="week-day"><span class="day-label">SUN</span><div class="day-tasks"><span class="task-tag rest">Rest & Recovery</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag rest">Refleksi & Rencana</span></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="workout-section" id="workout">
+  <div class="workout-inner">
+    <div class="section-label">Fase 02 — Bangun Tubuhmu</div>
+    <div class="section-title">Workout</div>
+    <div class="divider"></div>
+    <p style="color:var(--muted); font-size:14px; max-width:560px; line-height:1.8; margin-bottom:0;">5 hari latihan, 1 hari kardio, 1 hari istirahat total. Mulai dengan beban ringan dan tambah beban setiap minggu. Konsistensi selalu mengalahkan intensitas.</p>
+
+    <div class="workout-grid">
+      <div class="workout-card">
+        <div class="workout-day-num">01</div>
+        <div class="workout-day-name">Monday</div>
+        <div class="workout-focus">Chest & Triceps</div>
+        <ul class="exercise-list">
+          <li><span class="exercise-name">Bench Press</span><span class="exercise-sets">4 × 8</span></li>
+          <li><span class="exercise-name">Incline Dumbbell Press</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Cable Fly</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Dips</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Tricep Pushdown</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Skull Crushers</span><span class="exercise-sets">3 × 10</span></li>
+        </ul>
+      </div>
+      <div class="workout-card">
+        <div class="workout-day-num">02</div>
+        <div class="workout-day-name">Tuesday</div>
+        <div class="workout-focus">Back & Biceps</div>
+        <ul class="exercise-list">
+          <li><span class="exercise-name">Pull-Ups</span><span class="exercise-sets">4 × 8</span></li>
+          <li><span class="exercise-name">Barbell Row</span><span class="exercise-sets">4 × 8</span></li>
+          <li><span class="exercise-name">Lat Pulldown</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Seated Cable Row</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Barbell Curl</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Hammer Curl</span><span class="exercise-sets">3 × 12</span></li>
+        </ul>
+      </div>
+      <div class="workout-card">
+        <div class="workout-day-num">03</div>
+        <div class="workout-day-name">Wednesday</div>
+        <div class="workout-focus">Legs & Core</div>
+        <ul class="exercise-list">
+          <li><span class="exercise-name">Squat</span><span class="exercise-sets">4 × 8</span></li>
+          <li><span class="exercise-name">Romanian Deadlift</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Leg Press</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Leg Curl</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Plank</span><span class="exercise-sets">3 × 60s</span></li>
+          <li><span class="exercise-name">Cable Crunch</span><span class="exercise-sets">3 × 15</span></li>
+        </ul>
+      </div>
+      <div class="workout-card">
+        <div class="workout-day-num">04</div>
+        <div class="workout-day-name">Thursday</div>
+        <div class="workout-focus">Shoulders & Arms</div>
+        <ul class="exercise-list">
+          <li><span class="exercise-name">Overhead Press</span><span class="exercise-sets">4 × 8</span></li>
+          <li><span class="exercise-name">Lateral Raise</span><span class="exercise-sets">4 × 12</span></li>
+          <li><span class="exercise-name">Face Pulls</span><span class="exercise-sets">3 × 15</span></li>
+          <li><span class="exercise-name">Arnold Press</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Preacher Curl</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Overhead Tricep Ext</span><span class="exercise-sets">3 × 12</span></li>
+        </ul>
+      </div>
+      <div class="workout-card">
+        <div class="workout-day-num">05</div>
+        <div class="workout-day-name">Friday</div>
+        <div class="workout-focus">Full Body + Power</div>
+        <ul class="exercise-list">
+          <li><span class="exercise-name">Deadlift</span><span class="exercise-sets">4 × 5</span></li>
+          <li><span class="exercise-name">Push Press</span><span class="exercise-sets">3 × 6</span></li>
+          <li><span class="exercise-name">Chin-Ups</span><span class="exercise-sets">3 × 8</span></li>
+          <li><span class="exercise-name">Dumbbell Lunge</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Farmer's Walk</span><span class="exercise-sets">3 × 30m</span></li>
+          <li><span class="exercise-name">Ab Wheel</span><span class="exercise-sets">3 × 12</span></li>
+        </ul>
+      </div>
+      <div class="workout-card">
+        <div class="workout-day-num">06</div>
+        <div class="workout-day-name">Saturday</div>
+        <div class="workout-focus">Cardio & Conditioning</div>
+        <ul class="exercise-list">
+          <li><span class="exercise-name">Run / Jog</span><span class="exercise-sets">20–30 min</span></li>
+          <li><span class="exercise-name">Jump Rope</span><span class="exercise-sets">3 × 3 min</span></li>
+          <li><span class="exercise-name">Burpees</span><span class="exercise-sets">4 × 15</span></li>
+          <li><span class="exercise-name">Mountain Climbers</span><span class="exercise-sets">3 × 30s</span></li>
+          <li><span class="exercise-name">Box Jumps</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Cool Down Stretch</span><span class="exercise-sets">10 min</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:32px; padding:24px; border:1px solid rgba(201,169,110,0.15); background:rgba(201,169,110,0.03);">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:3px; color:var(--gold); margin-bottom:12px;">⚡ SUNDAY — FULL REST</div>
+      <p style="font-size:13px; color:var(--muted); line-height:1.7;">Tidur 7–9 jam. Otot tumbuh saat istirahat, bukan saat latihan. Jalan santai, lakukan peregangan, makan bergizi, minum banyak air. Jangan pernah melewatkan hari istirahat — ini adalah bagian dari program.</p>
+    </div>
+  </div>
+</div>
+
+<div id="nutrition">
+  <section class="nutrition-section">
+    <div class="section-label">Fase 03 — Beri Nutrisi Tubuhmu</div>
+    <div class="section-title">Nutrition<br>With What You Have</div>
+    <div class="divider"></div>
+    <p style="color:var(--muted); font-size:14px; max-width:600px; line-height:1.8;">Kamu memiliki telur, ayam, nasi, dan susu — itu sebenarnya fondasi yang SANGAT BAGUS. Berikut cara memaksimalkan apa yang ada di rumah untuk pertumbuhan otot dan kesehatan kulit.</p>
+
+    <div class="nutrition-grid">
+      <div class="nutrition-card"><div class="nutrition-icon">🥚</div><div class="nutrition-name">Eggs</div><div class="nutrition-desc">Sumber protein lengkap. Makan 3–4 telur setiap hari. Direbus adalah cara terbaik untuk membentuk otot. Kuning telur mengandung vitamin B12, D, dan biotin — semuanya sangat penting untuk kulit dan rambut.</div><span class="nutrition-badge">Makan Setiap Hari</span></div>
+      <div class="nutrition-card"><div class="nutrition-icon">🍗</div><div class="nutrition-name">Chicken</div><div class="nutrition-desc">Protein tanpa lemak untuk pemulihan otot. Makan setelah latihan jika memungkinkan. Rebus atau panggang — hindari digoreng. Dada ayam 150–200g per porsi sangat ideal untuk pembentukan otot.</div><span class="nutrition-badge">Setelah Latihan</span></div>
+      <div class="nutrition-card"><div class="nutrition-icon">🍚</div><div class="nutrition-name">Rice (Nasi)</div><div class="nutrition-desc">Sumber karbohidrat utama — memberi energi untuk latihan. Makan lebih banyak nasi di hari latihan, dan kurangi di hari istirahat. Nasi merah jika ada akan lebih baik untuk energi yang lebih tahan lama.</div><span class="nutrition-badge">Sumber Energi</span></div>
+      <div class="nutrition-card"><div class="nutrition-icon">🥛</div><div class="nutrition-name">Milk (Susu)</div><div class="nutrition-desc">Kombinasi kalsium + protein. Sangat bagus untuk kepadatan tulang dan pemulihan otot. Minum 1–2 gelas setiap hari. Paling baik diminum sebelum tidur atau setelah latihan untuk manfaat pemulihan.</div><span class="nutrition-badge">Sebelum Tidur</span></div>
+      <div class="nutrition-card"><div class="nutrition-icon">🥦</div><div class="nutrition-name">Vegetables (Sayur)</div><div class="nutrition-desc">Bahkan porsi kecil kangkung, bayam, atau sayur apa pun bisa menambah serat dan vitamin. Ini sangat membantu mencerahkan kulit dan memperlancar pencernaan secara signifikan.</div><span class="nutrition-badge">Tambahkan Jika Bisa</span></div>
+      <div class="nutrition-card"><div class="nutrition-icon">💧</div><div class="nutrition-name">Water</div><div class="nutrition-desc">Minimal 2–3 liter setiap hari. Dehidrasi menyebabkan kulit kusam dan memperlambat pertumbuhan otot. Mulailah pagi hari dengan 2 gelas air sebelum melakukan aktivitas lain.</div><span class="nutrition-badge">2L+ Setiap Hari</span></div>
+    </div>
+
+    <div style="margin-top:48px; padding:32px; border-left:3px solid var(--gold); background:var(--dark3);">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:3px; color:var(--gold); margin-bottom:12px;">📋 RENCANA MAKAN HARIAN IDEAL</div>
+      <div style="display:grid; gap:12px;">
+        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;">PAGI (6–7AM)</span> 2 telur rebus + 1 gelas susu + nasi</div>
+        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;">SIANG (12PM)</span> Nasi + ayam + sayur (lauk)</div>
+        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;">SORE (3PM)</span> 1–2 telur rebus (camilan sebelum latihan)</div>
+        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;">MALAM (7PM)</span> Nasi + protein (ayam/telur) + lauk</div>
+        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;">SEBELUM TIDUR</span> 1 gelas susu hangat</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section>
+  <div class="section-label">Perjalanan Ini</div>
+  <div class="section-title">12 Month<br>Transformation</div>
+  <div class="divider"></div>
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-month">Bulan 1–2</div><div class="timeline-title">Membangun Fondasi</div><div class="timeline-desc">Bangun kebiasaan. Mulai rutinitas skincare, minum air secara konsisten, mulai latihan 3–4x seminggu. Jangan mengharapkan hasil yang langsung terlihat — kamu sedang membangun fondasi. Kemenangan kecil itu penting.</div></div>
+    <div class="timeline-item"><div class="timeline-month">Bulan 3–4</div><div class="timeline-title">Tanda-Tanda Awal</div><div class="timeline-desc">Kulit mulai terlihat lebih bersih. Tubuh mulai berubah bentuk. Energi meningkat. Orang lain mungkin belum menyadari tapi KAMU akan merasakannya. Tetap konsisten. Tambah beban pada latihanmu.</div></div>
+    <div class="timeline-item"><div class="timeline-month">Bulan 5–6</div><div class="timeline-title">Perubahan yang Terlihat</div><div class="timeline-desc">Orang-orang di sekitarmu mulai menyadarinya. Pakaian terasa lebih pas. Warna kulit lebih merata. Postur tubuh membaik. Di sinilah motivasi akan meningkat secara alami — pertahankan momentum ini.</div></div>
+    <div class="timeline-item"><div class="timeline-month">Bulan 7–9</div><div class="timeline-title">Peningkatan Besar</div><div class="timeline-desc">Perkembangan otot yang signifikan mulai terlihat. Kulit tampak sehat alami. Selera gayamu meningkat. Kepercayaan diri naik. Fase ini adalah saat di mana transformasi nyatamu menjadi sangat jelas bagi semua orang.</div></div>
+    <div class="timeline-item"><div class="timeline-month">Bulan 10–12</div><div class="timeline-title">Dirimu yang Baru</div><div class="timeline-desc">Setelah 1 tahun konsistensi — tubuh lebih baik, kulit lebih bersih, postur lebih baik, gaya lebih tajam. Kamu tidak akan mengenali dirimu yang dulu. Ini baru permulaan — sekarang saatnya kamu naik ke level selanjutnya.</div></div>
+  </div>
+</section>
+
+<div class="tracker-section" id="tracker">
+  <div class="tracker-inner">
+    <div class="section-label">Fase 04 — Kedisiplinan</div>
+    <div class="section-title">365 Day<br>Tracker</div>
+    <div class="divider"></div>
+    <p style="color:var(--muted); font-size:13px; line-height:1.8; margin-bottom:16px;">Klik pada hari untuk menandainya selesai. Bangun rekor (streak) harianmu. Jangan putuskan rantainya.</p>
+    <div class="tracker-legend">
+      <span><span class="legend-dot" style="background:rgba(201,169,110,0.15); border:1px solid var(--gold);"></span>Selesai</span>
+      <span><span class="legend-dot" style="background:var(--dark3); border:1px solid rgba(255,255,255,0.08);"></span>Tertunda</span>
+      <span id="streak-count" style="margin-left:auto; color:var(--gold); font-weight:600;">🔥 Rekor: 0 hari</span>
+    </div>
+    <div class="tracker-grid" id="trackerGrid"></div>
+    <div style="margin-top:24px; display:flex; gap:16px; flex-wrap:wrap;">
+      <button class="btn btn-outline" onclick="resetTracker()" style="font-size:11px; padding:10px 20px;">Reset Semua</button>
+      <span id="progress-text" style="color:var(--muted); font-size:12px; align-self:center; letter-spacing:1px;"></span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">1 YEAR</div>
+  <p>Disiplin</p>
+  <p style="margin-top:8px; font-size:10px; opacity:0.4;">365 hari. Satu versi pada satu waktu.</p>
+</footer>
+
+<script>
+  function scrollTo(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }
+
+  const TOTAL_DAYS = 365;
+  let completed = JSON.parse(localStorage.getItem('tracker_days') || '[]');
+
+  function buildTracker() {
+    const grid = document.getElementById('trackerGrid');
+    grid.innerHTML = '';
+    const today = new Date();
+    const startOfYear = new Date(today.getFullYear(), 0, 1);
+    for (let i = 0; i < TOTAL_DAYS; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'tracker-cell';
+      cell.title = `Hari ${i + 1}`;
+      const daysDiff = Math.floor((today - startOfYear) / (1000 * 60 * 60 * 24));
+      if (i === daysDiff) cell.classList.add('today');
+      if (completed.includes(i)) cell.classList.add('done');
+      cell.addEventListener('click', () => toggleDay(i, cell));
+      grid.appendChild(cell);
+    }
+    updateStats();
+  }
+
+  function toggleDay(i, cell) {
+    if (completed.includes(i)) {
+      completed = completed.filter(d => d !== i);
+      cell.classList.remove('done');
+    } else {
+      completed.push(i);
+      cell.classList.add('done');
+    }
+    localStorage.setItem('tracker_days', JSON.stringify(completed));
+    updateStats();
+  }
+
+  function updateStats() {
+    const streak = calculateStreak();
+    document.getElementById('streak-count').textContent = `🔥 Rekor: ${streak} hari`;
+    document.getElementById('progress-text').textContent = `${completed.length} / ${TOTAL_DAYS} hari selesai (${Math.round(completed.length/TOTAL_DAYS*100)}%)`;
+  }
+
+  function calculateStreak() {
+    if (completed.length === 0) return 0;
+    const sorted = [...completed].sort((a, b) => b - a);
+    const today = new Date();
+    const startOfYear = new Date(today.getFullYear(), 0, 1);
+    const todayIdx = Math.floor((today - startOfYear) / (1000 * 60 * 60 * 24));
+    let streak = 0;
+    let current = todayIdx;
+    for (let d of sorted) {
+      if (d === current || d === current - 1) { streak++; current = d; }
+      else break;
+    }
+    return streak;
+  }
+
+  function resetTracker() {
+    if (confirm('Reset semua progres? Aksi ini tidak dapat dibatalkan.')) {
+      completed = [];
+      localStorage.removeItem('tracker_days');
+      buildTracker();
+    }
+  }
+
+  buildTracker();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.glow-card, .workout-card, .nutrition-card, .timeline-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
