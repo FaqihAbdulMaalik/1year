@@ -27,6 +27,36 @@
     overflow-x: hidden;
   }
 
+  /* LANGUAGE TOGGLE */
+  .lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 200;
+    display: flex;
+    background: var(--dark3);
+    border: 1px solid rgba(201,169,110,0.2);
+    overflow: hidden;
+  }
+
+  .lang-btn {
+    padding: 6px 14px;
+    font-size: 11px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    transition: all 0.3s;
+  }
+
+  .lang-btn.active {
+    background: var(--gold);
+    color: var(--dark);
+  }
+
   .hero {
     min-height: 100vh;
     display: flex;
@@ -111,6 +141,7 @@
     text-transform: uppercase;
     transition: all 0.3s;
     text-decoration: none;
+    display: inline-block;
   }
 
   .btn-gold { background: var(--gold); color: var(--dark); }
@@ -205,7 +236,6 @@
   .task-tag { padding: 4px 12px; background: rgba(201,169,110,0.08); border: 1px solid rgba(201,169,110,0.2); font-size: 11px; color: var(--gold-light); letter-spacing: 1px; border-radius: 2px; }
   .task-tag.rest { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); color: var(--muted); }
 
-  /* WORKOUT SECTION */
   .workout-section { background: var(--dark2); margin: 0; padding: 100px 0; }
   .workout-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
 
@@ -256,14 +286,104 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 10px; color: var(--muted);
     cursor: pointer; transition: all 0.2s; border-radius: 2px;
+    position: relative;
   }
 
   .tracker-cell:hover { border-color: var(--gold); color: var(--gold); }
   .tracker-cell.done { background: rgba(201,169,110,0.15); border-color: var(--gold); color: var(--gold); }
   .tracker-cell.today { border-color: var(--gold); box-shadow: 0 0 8px rgba(201,169,110,0.3); }
+  .tracker-cell.future { opacity: 0.4; cursor: not-allowed; }
 
   .tracker-legend { display: flex; gap: 24px; margin-top: 16px; font-size: 11px; color: var(--muted); align-items: center; }
   .legend-dot { width: 10px; height: 10px; display: inline-block; margin-right: 6px; border-radius: 2px; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 500;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--dark3);
+    border: 1px solid rgba(201,169,110,0.3);
+    padding: 40px;
+    max-width: 480px;
+    width: 90%;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+  }
+
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--gold); letter-spacing: 3px; margin-bottom: 8px; }
+  .modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 24px; letter-spacing: 1px; }
+
+  .modal-body { font-size: 13px; color: var(--white); line-height: 1.8; }
+  .modal-body ul { padding-left: 20px; margin-top: 12px; }
+  .modal-body li { margin-bottom: 8px; color: var(--muted); }
+  .modal-body li span { color: var(--gold-light); }
+
+  .modal-close {
+    margin-top: 28px;
+    width: 100%;
+    padding: 12px;
+    background: var(--gold);
+    border: none;
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .modal-close:hover { background: var(--gold-light); }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--dark3);
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    padding: 12px 28px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    z-index: 999;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.06);
+    margin-top: 32px;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    transition: width 0.6s ease;
+    width: 0%;
+  }
 
   footer { text-align: center; padding: 60px 40px; border-top: 1px solid rgba(255,255,255,0.05); }
   footer .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--gold); letter-spacing: 8px; opacity: 0.3; }
@@ -280,6 +400,25 @@
     100% { transform: scaleY(0); transform-origin: bottom; }
   }
 
+  .day-tooltip {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--dark);
+    border: 1px solid rgba(201,169,110,0.3);
+    color: var(--gold-light);
+    font-size: 10px;
+    padding: 4px 8px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+  }
+
+  .tracker-cell:hover .day-tooltip { opacity: 1; }
+
   @media (max-width: 768px) {
     nav { padding: 16px 20px; }
     .nav-links { display: none; }
@@ -287,99 +426,118 @@
     .workout-inner, .tracker-inner { padding: 0 20px; }
     .workout-section, .tracker-section { padding: 60px 0; }
     .tracker-grid { gap: 3px; }
+    .lang-toggle { top: auto; bottom: 20px; right: 20px; }
   }
 </style>
 </head>
 <body>
 
+<!-- Language Toggle -->
+<div class="lang-toggle">
+  <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" id="btnID" onclick="setLang('id')">ID</button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-sub" id="modal-sub"></div>
+    <div class="modal-body" id="modal-body"></div>
+    <button class="modal-close" onclick="closeModalDirect()" data-t="close">CLOSE</button>
+  </div>
+</div>
+
 <nav>
   <div class="nav-logo">1 YEAR</div>
   <ul class="nav-links">
-    <li><a onclick="scrollTo('glow')">Glow Up</a></li>
-    <li><a onclick="scrollTo('workout')">Workout</a></li>
-    <li><a onclick="scrollTo('nutrition')">Nutrition</a></li>
-    <li><a onclick="scrollTo('tracker')">Tracker</a></li>
+    <li><a onclick="navScroll('glow')" data-t="nav-glow">Glow Up</a></li>
+    <li><a onclick="navScroll('workout')" data-t="nav-workout">Workout</a></li>
+    <li><a onclick="navScroll('nutrition')" data-t="nav-nutrition">Nutrition</a></li>
+    <li><a onclick="navScroll('tracker')" data-t="nav-tracker">Tracker</a></li>
   </ul>
 </nav>
 
 <div class="hero">
   <div class="hero-year">1</div>
   <div class="hero-content">
-    <div class="hero-tag">Your Transformation Journey</div>
-    <div class="hero-title">1 <span>Year</span><br>To Better</div>
+    <div class="hero-tag" data-t="hero-tag">Your Transformation Journey</div>
+    <div class="hero-title">1 <span>Year</span><br><span data-t="hero-title-sub">To Better</span></div>
     <div class="hero-cta">
-      <button class="btn btn-gold" onclick="scrollTo('glow')">Start My Journey</button>
+      <button class="btn btn-gold" onclick="navScroll('glow')" data-t="hero-cta">Start My Journey</button>
     </div>
   </div>
-</div>
   <div class="scroll-indicator">
-    <span class="scroll-text">Gulir</span>
+    <span class="scroll-text" data-t="scroll-text">Scroll</span>
     <div class="scroll-line"></div>
   </div>
 </div>
 
 <div id="glow">
   <section>
-    <div class="section-label">Phase 01 — Penampilan</div>
-    <div class="section-title">Life<br>routine</div>
+    <div class="section-label" data-t="glow-label">Phase 01 — Appearance</div>
+    <div class="section-title" data-t="glow-title">Life<br>Routine</div>
     <div class="divider"></div>
 
-<div class="glow-grid">
-  <div class="glow-card">
-    <span class="card-icon">🌅</span>
-    <div class="card-title">Morning Routine</div>
-    <div class="card-text">Mulailah setiap pagi dengan sabun cuci muka, toner, dan pelembap ber-SPF. Sunscreen itu wajib — fungsinya mencegah kulit kusam dan melindungi warna asli kulitmu.</div>
-    <div class="card-tip">💡 Gunakan SPF 30–50 setiap pagi meskipun di dalam ruangan. Sinar UV yang menembus jendela tetap bisa memengaruhi kulit.</div>
-  </div>
+    <div class="glow-grid">
+      <div class="glow-card" onclick="openCardModal('morning')">
+        <span class="card-icon">🌅</span>
+        <div class="card-title" data-t="morning-title">Morning Routine</div>
+        <div class="card-text" data-t="morning-text">Start every morning with face wash, toner, and SPF moisturizer. Sunscreen is non-negotiable — it prevents dullness and protects your natural skin tone.</div>
+        <div class="card-tip" data-t="morning-tip">💡 Use SPF 30–50 every morning even indoors. UV rays penetrate windows and still affect your skin.</div>
+      </div>
 
-  <div class="glow-card">
-    <span class="card-icon">🌙</span>
-    <div class="card-title">Night Routine</div>
-    <div class="card-text">Bersihkan wajah dua kali, aplikasikan serum niacinamide lalu lembapkan. Malam hari adalah waktu kulit memperbaiki dirinya sendiri. Gunakan skincare dengan salicylic acid untuk kulit berjerawat & berminyak.</div>
-    <div class="card-tip">💡 Serum Niacinamide + Vitamin C adalah kombinasi terbaik untuk pemulihan kulit secara alami.</div>
-  </div>
+      <div class="glow-card" onclick="openCardModal('night')">
+        <span class="card-icon">🌙</span>
+        <div class="card-title" data-t="night-title">Night Routine</div>
+        <div class="card-text" data-t="night-text">Double cleanse, apply niacinamide serum, then moisturize. Night is when your skin repairs itself. Use salicylic acid for oily/acne-prone skin.</div>
+        <div class="card-tip" data-t="night-tip">💡 Niacinamide + Vitamin C serum is the best combo for natural skin recovery.</div>
+      </div>
 
-  <div class="glow-card">
-    <span class="card-icon">💧</span>
-    <div class="card-title">Hydration</div>
-    <div class="card-text">Minum minimal 2 liter air setiap hari. Kulit yang terhidrasi = warna kulit lebih bersih dan merata. Tubuh yang terhidrasi dengan baik juga meningkatkan elastisitas alami kulitmu.</div>
-    <div class="card-tip">💡 Sediakan botol air 600ml. Isi ulang 3 kali sehari. Sistem yang sangat mudah.</div>
-  </div>
+      <div class="glow-card" onclick="openCardModal('hydration')">
+        <span class="card-icon">💧</span>
+        <div class="card-title" data-t="hydration-title">Hydration</div>
+        <div class="card-text" data-t="hydration-text">Drink at least 2 liters of water daily. Hydrated skin = clearer, more even skin tone. Proper hydration also boosts your skin's natural elasticity.</div>
+        <div class="card-tip" data-t="hydration-tip">💡 Get a 600ml bottle. Refill 3x a day. Incredibly simple system.</div>
+      </div>
 
-  <div class="glow-card">
-    <span class="card-icon">✂️</span>
-    <div class="card-title">Grooming</div>
-    <div class="card-text">Cukur rambut dengan rapi setiap 3–4 minggu. Jaga alis tetap rapi (jangan dicabut — cukup dirapikan). Jaga kebersihan kuku. Hal-hal kecil ini memberikan perbedaan visual yang sangat besar.</div>
-    <div class="card-tip">💡 Potongan rambut yang rapi saja sudah bisa mengubah cara pandang orang lain terhadapmu secara keseluruhan.</div>
-  </div>
+      <div class="glow-card" onclick="openCardModal('grooming')">
+        <span class="card-icon">✂️</span>
+        <div class="card-title" data-t="grooming-title">Grooming</div>
+        <div class="card-text" data-t="grooming-text">Get a haircut every 3–4 weeks. Keep eyebrows clean (don't over-pluck — just tidy). Keep nails clean. These small things make a massive visual difference.</div>
+        <div class="card-tip" data-t="grooming-tip">💡 A clean haircut alone can change how others perceive your entire look.</div>
+      </div>
 
-  <div class="glow-card">
-    <span class="card-icon">👕</span>
-    <div class="card-title">Style Upgrade</div>
-    <div class="card-text">Ukuran yang pas adalah segalanya. Bahkan kaus putih polos akan terlihat premium jika ukurannya pas. Warna gelap (navy, hitam, charcoal) sangat cocok untuk menonjolkan warna kulitmu.</div>
-    <div class="card-tip">💡 Investasikan pada 3–4 pakaian dasar yang ukurannya pas daripada 10 pakaian yang kebesaran.</div>
-  </div>
+      <div class="glow-card" onclick="openCardModal('style')">
+        <span class="card-icon">👕</span>
+        <div class="card-title" data-t="style-title">Style Upgrade</div>
+        <div class="card-text" data-t="style-text">Fit is everything. Even a plain white tee looks premium if it fits right. Dark colors (navy, black, charcoal) complement your skin tone beautifully.</div>
+        <div class="card-tip" data-t="style-tip">💡 Invest in 3–4 well-fitting basics over 10 oversized pieces.</div>
+      </div>
 
-  <div class="glow-card">
-    <span class="card-icon">🧘</span>
-    <div class="card-title">Posture & Presence</div>
-    <div class="card-text">Berdiri tegak, tarik bahu ke belakang, dagu sejajar dengan lantai. Postur tubuh mengubah bagaimana kamu terlihat DAN merasa. Latih perbaikan postur selama 5 menit setiap hari.</div>
-    <div class="card-tip">💡 Postur yang baik saja bisa membuatmu terlihat 3–5kg lebih ringan dan 3cm lebih tinggi.</div>
-  </div>
-</div>
+      <div class="glow-card" onclick="openCardModal('posture')">
+        <span class="card-icon">🧘</span>
+        <div class="card-title" data-t="posture-title">Posture & Presence</div>
+        <div class="card-text" data-t="posture-text">Stand tall, pull shoulders back, chin parallel to the floor. Posture changes how you look AND feel. Practice 5 minutes of posture correction daily.</div>
+        <div class="card-tip" data-t="posture-tip">💡 Good posture alone can make you look 3–5kg lighter and 3cm taller.</div>
+      </div>
+    </div>
 
     <div style="margin-top:80px;">
-      <div class="section-label">Jadwal Harian</div>
-      <div class="section-title" style="font-size:36px;">Weekly Plan</div>
+      <div class="section-label" data-t="weekly-label">Daily Schedule</div>
+      <div class="section-title" style="font-size:36px;" data-t="weekly-title">Weekly Plan</div>
       <div class="divider"></div>
       <div class="routine-week">
-        <div class="week-day"><span class="day-label">MON</span><div class="day-tasks"><span class="task-tag">Chest & Triceps</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Air 2L</span></div></div>
-        <div class="week-day"><span class="day-label">TUE</span><div class="day-tasks"><span class="task-tag">Back & Biceps</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Latihan Postur</span></div></div>
-        <div class="week-day"><span class="day-label">WED</span><div class="day-tasks"><span class="task-tag">Legs & Core</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Perawatan Rambut</span></div></div>
-        <div class="week-day"><span class="day-label">THU</span><div class="day-tasks"><span class="task-tag">Shoulders & Arms</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Air 2L</span></div></div>
-        <div class="week-day"><span class="day-label">FRI</span><div class="day-tasks"><span class="task-tag">Full Body</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Cek Penampilan</span></div></div>
-        <div class="week-day"><span class="day-label">SAT</span><div class="day-tasks"><span class="task-tag">Cardio / Walk</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag">Perencanaan Gaya</span></div></div>
-        <div class="week-day"><span class="day-label">SUN</span><div class="day-tasks"><span class="task-tag rest">Rest & Recovery</span><span class="task-tag">Skincare AM/PM</span><span class="task-tag rest">Refleksi & Rencana</span></div></div>
+        <div class="week-day" onclick="openDayModal('mon')"><span class="day-label">MON</span><div class="day-tasks"><span class="task-tag" data-t="task-chest">Chest & Triceps</span><span class="task-tag" data-t="task-skincare">Skincare AM/PM</span><span class="task-tag" data-t="task-water">Water 2L</span></div></div>
+        <div class="week-day" onclick="openDayModal('tue')"><span class="day-label">TUE</span><div class="day-tasks"><span class="task-tag" data-t="task-back">Back & Biceps</span><span class="task-tag" data-t="task-skincare">Skincare AM/PM</span><span class="task-tag" data-t="task-posture">Posture Practice</span></div></div>
+        <div class="week-day" onclick="openDayModal('wed')"><span class="day-label">WED</span><div class="day-tasks"><span class="task-tag" data-t="task-legs">Legs & Core</span><span class="task-tag" data-t="task-skincare">Skincare AM/PM</span><span class="task-tag" data-t="task-hair">Hair Care</span></div></div>
+        <div class="week-day" onclick="openDayModal('thu')"><span class="day-label">THU</span><div class="day-tasks"><span class="task-tag" data-t="task-shoulders">Shoulders & Arms</span><span class="task-tag" data-t="task-skincare">Skincare AM/PM</span><span class="task-tag" data-t="task-water">Water 2L</span></div></div>
+        <div class="week-day" onclick="openDayModal('fri')"><span class="day-label">FRI</span><div class="day-tasks"><span class="task-tag" data-t="task-fullbody">Full Body</span><span class="task-tag" data-t="task-skincare">Skincare AM/PM</span><span class="task-tag" data-t="task-style-check">Style Check</span></div></div>
+        <div class="week-day" onclick="openDayModal('sat')"><span class="day-label">SAT</span><div class="day-tasks"><span class="task-tag" data-t="task-cardio">Cardio / Walk</span><span class="task-tag" data-t="task-skincare">Skincare AM/PM</span><span class="task-tag" data-t="task-style-plan">Style Planning</span></div></div>
+        <div class="week-day" onclick="openDayModal('sun')"><span class="day-label">SUN</span><div class="day-tasks"><span class="task-tag rest" data-t="task-rest">Rest & Recovery</span><span class="task-tag" data-t="task-skincare">Skincare AM/PM</span><span class="task-tag rest" data-t="task-reflect">Reflect & Plan</span></div></div>
       </div>
     </div>
   </section>
@@ -387,10 +545,10 @@
 
 <div class="workout-section" id="workout">
   <div class="workout-inner">
-    <div class="section-label">Fase 02 — Bangun Tubuhmu</div>
-    <div class="section-title">Workout</div>
+    <div class="section-label" data-t="workout-label">Phase 02 — Build Your Body</div>
+    <div class="section-title" data-t="workout-title">Workout</div>
     <div class="divider"></div>
-    <p style="color:var(--muted); font-size:14px; max-width:560px; line-height:1.8; margin-bottom:0;">5 hari latihan, 1 hari kardio, 1 hari istirahat total. Mulai dengan beban ringan dan tambah beban setiap minggu. Konsistensi selalu mengalahkan intensitas.</p>
+    <p style="color:var(--muted); font-size:14px; max-width:560px; line-height:1.8; margin-bottom:0;" data-t="workout-sub">5 training days, 1 cardio day, 1 full rest day. Start light and add weight weekly. Consistency always beats intensity.</p>
 
     <div class="workout-grid">
       <div class="workout-card">
@@ -403,7 +561,9 @@
           <li><span class="exercise-name">Cable Fly</span><span class="exercise-sets">3 × 12</span></li>
           <li><span class="exercise-name">Dips</span><span class="exercise-sets">3 × 10</span></li>
           <li><span class="exercise-name">Tricep Pushdown</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Lateral Raise</span><span class="exercise-sets">4 × 12–15</span></li>
           <li><span class="exercise-name">Skull Crushers</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Push Up</span><span class="exercise-sets">3 × 10</span></li>
         </ul>
       </div>
       <div class="workout-card">
@@ -411,12 +571,13 @@
         <div class="workout-day-name">Tuesday</div>
         <div class="workout-focus">Back & Biceps</div>
         <ul class="exercise-list">
-          <li><span class="exercise-name">Pull-Ups</span><span class="exercise-sets">4 × 8</span></li>
-          <li><span class="exercise-name">Barbell Row</span><span class="exercise-sets">4 × 8</span></li>
-          <li><span class="exercise-name">Lat Pulldown</span><span class="exercise-sets">3 × 10</span></li>
-          <li><span class="exercise-name">Seated Cable Row</span><span class="exercise-sets">3 × 12</span></li>
-          <li><span class="exercise-name">Barbell Curl</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Pull-Ups</span><span class="exercise-sets">4 × 15</span></li>
+          <li><span class="exercise-name">Lat Pulldown</span><span class="exercise-sets">4 × 10</span></li>
+          <li><span class="exercise-name">One Arm Dumbbell Row</span><span class="exercise-sets">4 × 10</span></li>
+          <li><span class="exercise-name">Cable Row</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Face Pull</span><span class="exercise-sets">3 × 15</span></li>
           <li><span class="exercise-name">Hammer Curl</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Cable Curl</span><span class="exercise-sets">3 × 12</span></li>
         </ul>
       </div>
       <div class="workout-card">
@@ -424,12 +585,14 @@
         <div class="workout-day-name">Wednesday</div>
         <div class="workout-focus">Legs & Core</div>
         <ul class="exercise-list">
-          <li><span class="exercise-name">Squat</span><span class="exercise-sets">4 × 8</span></li>
-          <li><span class="exercise-name">Romanian Deadlift</span><span class="exercise-sets">3 × 10</span></li>
-          <li><span class="exercise-name">Leg Press</span><span class="exercise-sets">3 × 12</span></li>
-          <li><span class="exercise-name">Leg Curl</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Goblet Squat</span><span class="exercise-sets">4 × 10</span></li>
+          <li><span class="exercise-name">Squat</span><span class="exercise-sets">4 × 10</span></li>
+          <li><span class="exercise-name">Romanian Deadlift</span><span class="exercise-sets">4 × 10</span></li>
+          <li><span class="exercise-name">Standing Calf Raise</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Walking Lunges</span><span class="exercise-sets">3 × 12</span></li>
           <li><span class="exercise-name">Plank</span><span class="exercise-sets">3 × 60s</span></li>
-          <li><span class="exercise-name">Cable Crunch</span><span class="exercise-sets">3 × 15</span></li>
+          <li><span class="exercise-name">Russian Twist</span><span class="exercise-sets">2 × 25</span></li>
+          <li><span class="exercise-name">Bulgarian Split Squat</span><span class="exercise-sets">3 × 12</span></li>
         </ul>
       </div>
       <div class="workout-card">
@@ -437,12 +600,13 @@
         <div class="workout-day-name">Thursday</div>
         <div class="workout-focus">Shoulders & Arms</div>
         <ul class="exercise-list">
-          <li><span class="exercise-name">Overhead Press</span><span class="exercise-sets">4 × 8</span></li>
+          <li><span class="exercise-name">Shoulder Press</span><span class="exercise-sets">4 × 8</span></li>
           <li><span class="exercise-name">Lateral Raise</span><span class="exercise-sets">4 × 12</span></li>
-          <li><span class="exercise-name">Face Pulls</span><span class="exercise-sets">3 × 15</span></li>
-          <li><span class="exercise-name">Arnold Press</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Rear Delt Fly</span><span class="exercise-sets">3 × 15</span></li>
           <li><span class="exercise-name">Preacher Curl</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Face Pull</span><span class="exercise-sets">4 × 8</span></li>
           <li><span class="exercise-name">Overhead Tricep Ext</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Dumbbell Curl</span><span class="exercise-sets">3 × 12</span></li>
         </ul>
       </div>
       <div class="workout-card">
@@ -450,12 +614,13 @@
         <div class="workout-day-name">Friday</div>
         <div class="workout-focus">Full Body + Power</div>
         <ul class="exercise-list">
-          <li><span class="exercise-name">Deadlift</span><span class="exercise-sets">4 × 5</span></li>
-          <li><span class="exercise-name">Push Press</span><span class="exercise-sets">3 × 6</span></li>
-          <li><span class="exercise-name">Chin-Ups</span><span class="exercise-sets">3 × 8</span></li>
-          <li><span class="exercise-name">Dumbbell Lunge</span><span class="exercise-sets">3 × 10</span></li>
-          <li><span class="exercise-name">Farmer's Walk</span><span class="exercise-sets">3 × 30m</span></li>
-          <li><span class="exercise-name">Ab Wheel</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Incline Dumbbell Press</span><span class="exercise-sets">4 × 10</span></li>
+          <li><span class="exercise-name">Pull Up</span><span class="exercise-sets">3 × 15</span></li>
+          <li><span class="exercise-name">Lateral Raise</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Lat Pulldown</span><span class="exercise-sets">4 × 12</span></li>
+          <li><span class="exercise-name">Cable Fly</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Push Up</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Dumbbell Row</span><span class="exercise-sets">3 × 12</span></li>
         </ul>
       </div>
       <div class="workout-card">
@@ -464,7 +629,7 @@
         <div class="workout-focus">Cardio & Conditioning</div>
         <ul class="exercise-list">
           <li><span class="exercise-name">Run / Jog</span><span class="exercise-sets">20–30 min</span></li>
-          <li><span class="exercise-name">Jump Rope</span><span class="exercise-sets">3 × 3 min</span></li>
+          <li><span class="exercise-name">Jump Rope</span><span class="exercise-sets">3 × 1 min</span></li>
           <li><span class="exercise-name">Burpees</span><span class="exercise-sets">4 × 15</span></li>
           <li><span class="exercise-name">Mountain Climbers</span><span class="exercise-sets">3 × 30s</span></li>
           <li><span class="exercise-name">Box Jumps</span><span class="exercise-sets">3 × 10</span></li>
@@ -474,163 +639,630 @@
     </div>
 
     <div style="margin-top:32px; padding:24px; border:1px solid rgba(201,169,110,0.15); background:rgba(201,169,110,0.03);">
-      <div style="font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:3px; color:var(--gold); margin-bottom:12px;">⚡ SUNDAY — FULL REST</div>
-      <p style="font-size:13px; color:var(--muted); line-height:1.7;">Tidur 7–9 jam. Otot tumbuh saat istirahat, bukan saat latihan. Jalan santai, lakukan peregangan, makan bergizi, minum banyak air. Jangan pernah melewatkan hari istirahat — ini adalah bagian dari program.</p>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:3px; color:var(--gold); margin-bottom:12px;" data-t="rest-title">⚡ SUNDAY — FULL REST</div>
+      <p style="font-size:13px; color:var(--muted); line-height:1.7;" data-t="rest-desc">Sleep 7–9 hours. Muscles grow during rest, not during training. Walk, stretch, eat clean, drink water. Never skip rest day — it's part of the program.</p>
     </div>
   </div>
 </div>
 
 <div id="nutrition">
   <section class="nutrition-section">
-    <div class="section-label">Fase 03 — Beri Nutrisi Tubuhmu</div>
-    <div class="section-title">Nutrition<br>With What You Have</div>
+    <div class="section-label" data-t="nutrition-label">Phase 03 — Fuel Your Body</div>
+    <div class="section-title" data-t="nutrition-title">Nutrition<br>With What You Have</div>
     <div class="divider"></div>
-    <p style="color:var(--muted); font-size:14px; max-width:600px; line-height:1.8;">Kamu memiliki telur, ayam, nasi, dan susu — itu sebenarnya fondasi yang SANGAT BAGUS. Berikut cara memaksimalkan apa yang ada di rumah untuk pertumbuhan otot dan kesehatan kulit.</p>
+    <p style="color:var(--muted); font-size:14px; max-width:600px; line-height:1.8;" data-t="nutrition-sub">You have eggs, chicken, rice, and milk — that's actually a GREAT foundation. Here's how to maximize what's at home for muscle growth and skin health.</p>
 
     <div class="nutrition-grid">
-      <div class="nutrition-card"><div class="nutrition-icon">🥚</div><div class="nutrition-name">Eggs</div><div class="nutrition-desc">Sumber protein lengkap. Makan 3–4 telur setiap hari. Direbus adalah cara terbaik untuk membentuk otot. Kuning telur mengandung vitamin B12, D, dan biotin — semuanya sangat penting untuk kulit dan rambut.</div><span class="nutrition-badge">Makan Setiap Hari</span></div>
-      <div class="nutrition-card"><div class="nutrition-icon">🍗</div><div class="nutrition-name">Chicken</div><div class="nutrition-desc">Protein tanpa lemak untuk pemulihan otot. Makan setelah latihan jika memungkinkan. Rebus atau panggang — hindari digoreng. Dada ayam 150–200g per porsi sangat ideal untuk pembentukan otot.</div><span class="nutrition-badge">Setelah Latihan</span></div>
-      <div class="nutrition-card"><div class="nutrition-icon">🍚</div><div class="nutrition-name">Rice (Nasi)</div><div class="nutrition-desc">Sumber karbohidrat utama — memberi energi untuk latihan. Makan lebih banyak nasi di hari latihan, dan kurangi di hari istirahat. Nasi merah jika ada akan lebih baik untuk energi yang lebih tahan lama.</div><span class="nutrition-badge">Sumber Energi</span></div>
-      <div class="nutrition-card"><div class="nutrition-icon">🥛</div><div class="nutrition-name">Milk (Susu)</div><div class="nutrition-desc">Kombinasi kalsium + protein. Sangat bagus untuk kepadatan tulang dan pemulihan otot. Minum 1–2 gelas setiap hari. Paling baik diminum sebelum tidur atau setelah latihan untuk manfaat pemulihan.</div><span class="nutrition-badge">Sebelum Tidur</span></div>
-      <div class="nutrition-card"><div class="nutrition-icon">🥦</div><div class="nutrition-name">Vegetables (Sayur)</div><div class="nutrition-desc">Bahkan porsi kecil kangkung, bayam, atau sayur apa pun bisa menambah serat dan vitamin. Ini sangat membantu mencerahkan kulit dan memperlancar pencernaan secara signifikan.</div><span class="nutrition-badge">Tambahkan Jika Bisa</span></div>
-      <div class="nutrition-card"><div class="nutrition-icon">💧</div><div class="nutrition-name">Water</div><div class="nutrition-desc">Minimal 2–3 liter setiap hari. Dehidrasi menyebabkan kulit kusam dan memperlambat pertumbuhan otot. Mulailah pagi hari dengan 2 gelas air sebelum melakukan aktivitas lain.</div><span class="nutrition-badge">2L+ Setiap Hari</span></div>
+      <div class="nutrition-card" onclick="openNutritionModal('eggs')"><div class="nutrition-icon">🥚</div><div class="nutrition-name" data-t="n-eggs">Eggs</div><div class="nutrition-desc" data-t="n-eggs-desc">Complete protein source. Eat 3–4 eggs daily. Boiled is best for muscle building. Yolk contains B12, Vitamin D, and biotin — all crucial for skin and hair.</div><span class="nutrition-badge" data-t="n-eggs-badge">Eat Daily</span></div>
+      <div class="nutrition-card" onclick="openNutritionModal('chicken')"><div class="nutrition-icon">🍗</div><div class="nutrition-name" data-t="n-chicken">Chicken</div><div class="nutrition-desc" data-t="n-chicken-desc">Lean protein for muscle recovery. Eat post-workout when possible. Boil or grill — avoid frying. 150–200g chicken breast per serving is ideal for muscle growth.</div><span class="nutrition-badge" data-t="n-chicken-badge">Post Workout</span></div>
+      <div class="nutrition-card" onclick="openNutritionModal('rice')"><div class="nutrition-icon">🍚</div><div class="nutrition-name" data-t="n-rice">Rice</div><div class="nutrition-desc" data-t="n-rice-desc">Main carb source — gives energy for training. Eat more on training days, less on rest days. Brown rice if available gives longer-lasting energy.</div><span class="nutrition-badge" data-t="n-rice-badge">Energy Source</span></div>
+      <div class="nutrition-card" onclick="openNutritionModal('milk')"><div class="nutrition-icon">🥛</div><div class="nutrition-name" data-t="n-milk">Milk</div><div class="nutrition-desc" data-t="n-milk-desc">Calcium + protein combo. Great for bone density and muscle recovery. Drink 1–2 glasses daily. Best before bed or post-workout for recovery benefits.</div><span class="nutrition-badge" data-t="n-milk-badge">Before Sleep</span></div>
+      <div class="nutrition-card" onclick="openNutritionModal('veg')"><div class="nutrition-icon">🥦</div><div class="nutrition-name" data-t="n-veg">Vegetables</div><div class="nutrition-desc" data-t="n-veg-desc">Even a small portion of spinach, kale, or any veggie adds fiber and vitamins. Hugely helps with skin brightening and digestion.</div><span class="nutrition-badge" data-t="n-veg-badge">Add When Possible</span></div>
+      <div class="nutrition-card" onclick="openNutritionModal('water')"><div class="nutrition-icon">💧</div><div class="nutrition-name" data-t="n-water">Water</div><div class="nutrition-desc" data-t="n-water-desc">Minimum 2–3 liters daily. Dehydration causes dull skin and slows muscle growth. Start every morning with 2 glasses before anything else.</div><span class="nutrition-badge" data-t="n-water-badge">2L+ Daily</span></div>
     </div>
 
     <div style="margin-top:48px; padding:32px; border-left:3px solid var(--gold); background:var(--dark3);">
-      <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:3px; color:var(--gold); margin-bottom:12px;">📋 RENCANA MAKAN HARIAN IDEAL</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:3px; color:var(--gold); margin-bottom:12px;" data-t="meal-plan-title">📋 IDEAL DAILY MEAL PLAN</div>
       <div style="display:grid; gap:12px;">
-        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;">PAGI (6–7AM)</span> 2 telur rebus + 1 gelas susu + nasi</div>
-        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;">SIANG (12PM)</span> Nasi + ayam + sayur (lauk)</div>
-        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;">SORE (3PM)</span> 1–2 telur rebus (camilan sebelum latihan)</div>
-        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;">MALAM (7PM)</span> Nasi + protein (ayam/telur) + lauk</div>
-        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;">SEBELUM TIDUR</span> 1 gelas susu hangat</div>
+        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;" data-t="meal-morning">MORNING (6–7AM)</span> <span data-t="meal-morning-food">2 boiled eggs + 1 glass milk + rice</span></div>
+        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;" data-t="meal-lunch">LUNCH (12PM)</span> <span data-t="meal-lunch-food">Rice + chicken + vegetable side</span></div>
+        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;" data-t="meal-snack">AFTERNOON (3PM)</span> <span data-t="meal-snack-food">1–2 boiled eggs (pre-workout snack)</span></div>
+        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;" data-t="meal-dinner">DINNER (7PM)</span> <span data-t="meal-dinner-food">Rice + protein (chicken/eggs) + side dish</span></div>
+        <div style="font-size:13px; color:var(--white);"><span style="color:var(--gold); margin-right:12px; font-weight:600;" data-t="meal-sleep">BEFORE SLEEP</span> <span data-t="meal-sleep-food">1 glass warm milk</span></div>
       </div>
     </div>
   </section>
 </div>
 
 <section>
-  <div class="section-label">Perjalanan Ini</div>
-  <div class="section-title">12 Month<br>Transformation</div>
+  <div class="section-label" data-t="timeline-label">The Journey</div>
+  <div class="section-title" data-t="timeline-title">12 Month<br>Transformation</div>
   <div class="divider"></div>
   <div class="timeline">
-    <div class="timeline-item"><div class="timeline-month">Bulan 1–2</div><div class="timeline-title">Membangun Fondasi</div><div class="timeline-desc">Bangun kebiasaan. Mulai rutinitas skincare, minum air secara konsisten, mulai latihan 3–4x seminggu. Jangan mengharapkan hasil yang langsung terlihat — kamu sedang membangun fondasi. Kemenangan kecil itu penting.</div></div>
-    <div class="timeline-item"><div class="timeline-month">Bulan 3–4</div><div class="timeline-title">Tanda-Tanda Awal</div><div class="timeline-desc">Kulit mulai terlihat lebih bersih. Tubuh mulai berubah bentuk. Energi meningkat. Orang lain mungkin belum menyadari tapi KAMU akan merasakannya. Tetap konsisten. Tambah beban pada latihanmu.</div></div>
-    <div class="timeline-item"><div class="timeline-month">Bulan 5–6</div><div class="timeline-title">Perubahan yang Terlihat</div><div class="timeline-desc">Orang-orang di sekitarmu mulai menyadarinya. Pakaian terasa lebih pas. Warna kulit lebih merata. Postur tubuh membaik. Di sinilah motivasi akan meningkat secara alami — pertahankan momentum ini.</div></div>
-    <div class="timeline-item"><div class="timeline-month">Bulan 7–9</div><div class="timeline-title">Peningkatan Besar</div><div class="timeline-desc">Perkembangan otot yang signifikan mulai terlihat. Kulit tampak sehat alami. Selera gayamu meningkat. Kepercayaan diri naik. Fase ini adalah saat di mana transformasi nyatamu menjadi sangat jelas bagi semua orang.</div></div>
-    <div class="timeline-item"><div class="timeline-month">Bulan 10–12</div><div class="timeline-title">Dirimu yang Baru</div><div class="timeline-desc">Setelah 1 tahun konsistensi — tubuh lebih baik, kulit lebih bersih, postur lebih baik, gaya lebih tajam. Kamu tidak akan mengenali dirimu yang dulu. Ini baru permulaan — sekarang saatnya kamu naik ke level selanjutnya.</div></div>
+    <div class="timeline-item"><div class="timeline-month" data-t="m1-month">Month 1–2</div><div class="timeline-title" data-t="m1-title">Building The Foundation</div><div class="timeline-desc" data-t="m1-desc">Build habits. Start skincare routine, consistent water intake, begin training 3–4x a week. Don't expect instant results — you're building foundations. Small wins matter.</div></div>
+    <div class="timeline-item"><div class="timeline-month" data-t="m2-month">Month 3–4</div><div class="timeline-title" data-t="m2-title">Early Signs</div><div class="timeline-desc" data-t="m2-desc">Skin starts clearing up. Body begins reshaping. Energy increases. Others may not notice yet but YOU will feel it. Stay consistent. Add weight to your lifts.</div></div>
+    <div class="timeline-item"><div class="timeline-month" data-t="m3-month">Month 5–6</div><div class="timeline-title" data-t="m3-title">Visible Changes</div><div class="timeline-desc" data-t="m3-desc">People around you start noticing. Clothes fit better. Skin tone evens out. Posture improved. This is where motivation naturally surges — maintain this momentum.</div></div>
+    <div class="timeline-item"><div class="timeline-month" data-t="m4-month">Month 7–9</div><div class="timeline-title" data-t="m4-title">Major Upgrade</div><div class="timeline-desc" data-t="m4-desc">Significant muscle development visible. Skin looks naturally healthy. Style taste sharpens. Confidence rises. This phase is when your real transformation becomes obvious to everyone.</div></div>
+    <div class="timeline-item"><div class="timeline-month" data-t="m5-month">Month 10–12</div><div class="timeline-title" data-t="m5-title">Your New Self</div><div class="timeline-desc" data-t="m5-desc">After 1 year of consistency — better body, clearer skin, improved posture, sharper style. You won't recognize the old you. This is just the beginning — now it's time to level up.</div></div>
   </div>
 </section>
 
 <div class="tracker-section" id="tracker">
   <div class="tracker-inner">
-    <div class="section-label">Fase 04 — Kedisiplinan</div>
-    <div class="section-title">365 Day<br>Tracker</div>
+    <div class="section-label" data-t="tracker-label">Phase 04 — Discipline</div>
+    <div class="section-title" data-t="tracker-title">365 Day<br>Tracker</div>
     <div class="divider"></div>
-    <p style="color:var(--muted); font-size:13px; line-height:1.8; margin-bottom:16px;">Klik pada hari untuk menandainya selesai. Bangun rekor (streak) harianmu. Jangan putuskan rantainya.</p>
+    <p style="color:var(--muted); font-size:13px; line-height:1.8; margin-bottom:16px;" data-t="tracker-sub">Click a day to mark it complete. Build your streak. Don't break the chain.</p>
     <div class="tracker-legend">
-      <span><span class="legend-dot" style="background:rgba(201,169,110,0.15); border:1px solid var(--gold);"></span>Selesai</span>
-      <span><span class="legend-dot" style="background:var(--dark3); border:1px solid rgba(255,255,255,0.08);"></span>Tertunda</span>
-      <span id="streak-count" style="margin-left:auto; color:var(--gold); font-weight:600;">🔥 Rekor: 0 hari</span>
+      <span><span class="legend-dot" style="background:rgba(201,169,110,0.15); border:1px solid var(--gold);"></span><span data-t="legend-done">Done</span></span>
+      <span><span class="legend-dot" style="background:var(--dark3); border:1px solid rgba(255,255,255,0.08);"></span><span data-t="legend-pending">Pending</span></span>
+      <span id="streak-count" style="margin-left:auto; color:var(--gold); font-weight:600;">🔥 <span data-t="streak-label">Streak:</span> <span id="streak-num">0</span> <span data-t="streak-days">days</span></span>
     </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
     <div class="tracker-grid" id="trackerGrid"></div>
-    <div style="margin-top:24px; display:flex; gap:16px; flex-wrap:wrap;">
-      <button class="btn btn-outline" onclick="resetTracker()" style="font-size:11px; padding:10px 20px;">Reset Semua</button>
-      <span id="progress-text" style="color:var(--muted); font-size:12px; align-self:center; letter-spacing:1px;"></span>
+    <div style="margin-top:24px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+      <button class="btn btn-outline" onclick="resetTracker()" style="font-size:11px; padding:10px 20px;" data-t="reset-btn">Reset All</button>
+      <button class="btn btn-outline" onclick="markTodayDone()" style="font-size:11px; padding:10px 20px; border-color:rgba(201,169,110,0.4); color:var(--gold);" data-t="today-btn">✓ Mark Today</button>
+      <span id="progress-text" style="color:var(--muted); font-size:12px; letter-spacing:1px;"></span>
     </div>
   </div>
 </div>
 
 <footer>
   <div class="footer-logo">1 YEAR</div>
-  <p>Disiplin</p>
-  <p style="margin-top:8px; font-size:10px; opacity:0.4;">365 hari. Satu versi pada satu waktu.</p>
+  <p data-t="footer-word">Discipline</p>
+  <p style="margin-top:8px; font-size:10px; opacity:0.4;" data-t="footer-sub">365 days. One version at a time.</p>
 </footer>
 
 <script>
-  function scrollTo(id) {
-    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+// ─── TRANSLATIONS ─────────────────────────────────────────────────────────────
+const T = {
+  en: {
+    'nav-glow': 'Glow Up',
+    'nav-workout': 'Workout',
+    'nav-nutrition': 'Nutrition',
+    'nav-tracker': 'Tracker',
+    'hero-tag': 'Your Transformation Journey',
+    'hero-title-sub': 'To Better',
+    'hero-cta': 'Start My Journey',
+    'scroll-text': 'Scroll',
+    'glow-label': 'Phase 01 — Appearance',
+    'glow-title': 'Life<br>Routine',
+    'morning-title': 'Morning Routine',
+    'morning-text': 'Start every morning with face wash, toner, and SPF moisturizer. Sunscreen is non-negotiable — it prevents dullness and protects your natural skin tone.',
+    'morning-tip': '💡 Use SPF 30–50 every morning even indoors. UV rays penetrate windows and still affect your skin.',
+    'night-title': 'Night Routine',
+    'night-text': 'Double cleanse, apply niacinamide serum, then moisturize. Night is when your skin repairs itself. Use salicylic acid for oily/acne-prone skin.',
+    'night-tip': '💡 Niacinamide + Vitamin C serum is the best combo for natural skin recovery.',
+    'hydration-title': 'Hydration',
+    'hydration-text': 'Drink at least 2 liters of water daily. Hydrated skin = clearer, more even skin tone. Proper hydration also boosts your skin\'s natural elasticity.',
+    'hydration-tip': '💡 Get a 600ml bottle. Refill 3x a day. Incredibly simple system.',
+    'grooming-title': 'Grooming',
+    'grooming-text': 'Get a haircut every 3–4 weeks. Keep eyebrows clean (don\'t over-pluck — just tidy). Keep nails clean. These small things make a massive visual difference.',
+    'grooming-tip': '💡 A clean haircut alone can change how others perceive your entire look.',
+    'style-title': 'Style Upgrade',
+    'style-text': 'Fit is everything. Even a plain white tee looks premium if it fits right. Dark colors (navy, black, charcoal) complement your skin tone beautifully.',
+    'style-tip': '💡 Invest in 3–4 well-fitting basics over 10 oversized pieces.',
+    'posture-title': 'Posture & Presence',
+    'posture-text': 'Stand tall, pull shoulders back, chin parallel to the floor. Posture changes how you look AND feel. Practice 5 minutes of posture correction daily.',
+    'posture-tip': '💡 Good posture alone can make you look 3–5kg lighter and 3cm taller.',
+    'weekly-label': 'Daily Schedule',
+    'weekly-title': 'Weekly Plan',
+    'task-chest': 'Chest & Triceps',
+    'task-back': 'Back & Biceps',
+    'task-legs': 'Legs & Core',
+    'task-shoulders': 'Shoulders & Arms',
+    'task-fullbody': 'Full Body',
+    'task-cardio': 'Cardio / Walk',
+    'task-rest': 'Rest & Recovery',
+    'task-skincare': 'Skincare AM/PM',
+    'task-water': 'Water 2L',
+    'task-posture': 'Posture Practice',
+    'task-hair': 'Hair Care',
+    'task-style-check': 'Style Check',
+    'task-style-plan': 'Style Planning',
+    'task-reflect': 'Reflect & Plan',
+    'workout-label': 'Phase 02 — Build Your Body',
+    'workout-title': 'Workout',
+    'workout-sub': '5 training days, 1 cardio day, 1 full rest day. Start light and add weight weekly. Consistency always beats intensity.',
+    'rest-title': '⚡ SUNDAY — FULL REST',
+    'rest-desc': 'Sleep 7–9 hours. Muscles grow during rest, not during training. Walk, stretch, eat clean, drink water. Never skip rest day — it\'s part of the program.',
+    'nutrition-label': 'Phase 03 — Fuel Your Body',
+    'nutrition-title': 'Nutrition<br>With What You Have',
+    'nutrition-sub': 'You have eggs, chicken, rice, and milk — that\'s actually a GREAT foundation. Here\'s how to maximize what\'s at home for muscle growth and skin health.',
+    'n-eggs': 'Eggs',
+    'n-eggs-desc': 'Complete protein source. Eat 3–4 eggs daily. Boiled is best for muscle building. Yolk contains B12, Vitamin D, and biotin — all crucial for skin and hair.',
+    'n-eggs-badge': 'Eat Daily',
+    'n-chicken': 'Chicken',
+    'n-chicken-desc': 'Lean protein for muscle recovery. Eat post-workout when possible. Boil or grill — avoid frying. 150–200g chicken breast per serving is ideal.',
+    'n-chicken-badge': 'Post Workout',
+    'n-rice': 'Rice',
+    'n-rice-desc': 'Main carb source — gives energy for training. Eat more on training days, less on rest days. Brown rice if available gives longer-lasting energy.',
+    'n-rice-badge': 'Energy Source',
+    'n-milk': 'Milk',
+    'n-milk-desc': 'Calcium + protein combo. Great for bone density and muscle recovery. Drink 1–2 glasses daily. Best before bed or post-workout.',
+    'n-milk-badge': 'Before Sleep',
+    'n-veg': 'Vegetables',
+    'n-veg-desc': 'Even a small portion of spinach, kale, or any veggie adds fiber and vitamins. Hugely helps with skin brightening and digestion.',
+    'n-veg-badge': 'Add When Possible',
+    'n-water': 'Water',
+    'n-water-desc': 'Minimum 2–3 liters daily. Dehydration causes dull skin and slows muscle growth. Start every morning with 2 glasses before anything else.',
+    'n-water-badge': '2L+ Daily',
+    'meal-plan-title': '📋 IDEAL DAILY MEAL PLAN',
+    'meal-morning': 'MORNING (6–7AM)',
+    'meal-morning-food': '2 boiled eggs + 1 glass milk + rice',
+    'meal-lunch': 'LUNCH (12PM)',
+    'meal-lunch-food': 'Rice + chicken + vegetable side',
+    'meal-snack': 'AFTERNOON (3PM)',
+    'meal-snack-food': '1–2 boiled eggs (pre-workout snack)',
+    'meal-dinner': 'DINNER (7PM)',
+    'meal-dinner-food': 'Rice + protein (chicken/eggs) + side dish',
+    'meal-sleep': 'BEFORE SLEEP',
+    'meal-sleep-food': '1 glass warm milk',
+    'timeline-label': 'The Journey',
+    'timeline-title': '12 Month<br>Transformation',
+    'm1-month': 'Month 1–2',
+    'm1-title': 'Building The Foundation',
+    'm1-desc': 'Build habits. Start skincare routine, consistent water intake, begin training 3–4x a week. Don\'t expect instant results — you\'re building foundations. Small wins matter.',
+    'm2-month': 'Month 3–4',
+    'm2-title': 'Early Signs',
+    'm2-desc': 'Skin starts clearing up. Body begins reshaping. Energy increases. Others may not notice yet but YOU will feel it. Stay consistent. Add weight to your lifts.',
+    'm3-month': 'Month 5–6',
+    'm3-title': 'Visible Changes',
+    'm3-desc': 'People around you start noticing. Clothes fit better. Skin tone evens out. Posture improved. This is where motivation naturally surges — maintain this momentum.',
+    'm4-month': 'Month 7–9',
+    'm4-title': 'Major Upgrade',
+    'm4-desc': 'Significant muscle development visible. Skin looks naturally healthy. Style taste sharpens. Confidence rises. This phase is when your real transformation becomes obvious to everyone.',
+    'm5-month': 'Month 10–12',
+    'm5-title': 'Your New Self',
+    'm5-desc': 'After 1 year of consistency — better body, clearer skin, improved posture, sharper style. You won\'t recognize the old you. This is just the beginning — now it\'s time to level up.',
+    'tracker-label': 'Phase 04 — Discipline',
+    'tracker-title': '365 Day<br>Tracker',
+    'tracker-sub': 'Click a day to mark it complete. Build your streak. Don\'t break the chain.',
+    'legend-done': 'Done',
+    'legend-pending': 'Pending',
+    'streak-label': 'Streak:',
+    'streak-days': 'days',
+    'reset-btn': 'Reset All',
+    'today-btn': '✓ Mark Today',
+    'footer-word': 'Discipline',
+    'footer-sub': '365 days. One version at a time.',
+    'close': 'CLOSE',
+    'confirm-reset': 'Reset all progress? This cannot be undone.',
+    'toast-done': 'Day marked complete! 🔥',
+    'toast-undone': 'Day unmarked.',
+    'toast-today': 'Today marked complete! Keep going! 🔥',
+    'toast-reset': 'Tracker has been reset.',
+  },
+  id: {
+    'nav-glow': 'Glow Up',
+    'nav-workout': 'Latihan',
+    'nav-nutrition': 'Nutrisi',
+    'nav-tracker': 'Tracker',
+    'hero-tag': 'Perjalanan Transformasimu',
+    'hero-title-sub': 'Menjadi Lebih Baik',
+    'hero-cta': 'Mulai Perjalananku',
+    'scroll-text': 'Gulir',
+    'glow-label': 'Fase 01 — Penampilan',
+    'glow-title': 'Life<br>Routine',
+    'morning-title': 'Rutinitas Pagi',
+    'morning-text': 'Mulailah setiap pagi dengan sabun cuci muka, toner, dan pelembap ber-SPF. Sunscreen itu wajib — fungsinya mencegah kulit kusam dan melindungi warna asli kulitmu.',
+    'morning-tip': '💡 Gunakan SPF 30–50 setiap pagi meskipun di dalam ruangan. Sinar UV yang menembus jendela tetap bisa memengaruhi kulit.',
+    'night-title': 'Rutinitas Malam',
+    'night-text': 'Bersihkan wajah dua kali, aplikasikan serum niacinamide lalu lembapkan. Malam hari adalah waktu kulit memperbaiki dirinya sendiri. Gunakan salicylic acid untuk kulit berjerawat & berminyak.',
+    'night-tip': '💡 Serum Niacinamide + Vitamin C adalah kombinasi terbaik untuk pemulihan kulit secara alami.',
+    'hydration-title': 'Hidrasi',
+    'hydration-text': 'Minum minimal 2 liter air setiap hari. Kulit yang terhidrasi = warna kulit lebih bersih dan merata. Tubuh yang terhidrasi dengan baik juga meningkatkan elastisitas alami kulitmu.',
+    'hydration-tip': '💡 Sediakan botol air 600ml. Isi ulang 3 kali sehari. Sistem yang sangat mudah.',
+    'grooming-title': 'Grooming',
+    'grooming-text': 'Cukur rambut dengan rapi setiap 3–4 minggu. Jaga alis tetap rapi (jangan dicabut — cukup dirapikan). Jaga kebersihan kuku. Hal-hal kecil ini memberikan perbedaan visual yang sangat besar.',
+    'grooming-tip': '💡 Potongan rambut yang rapi saja sudah bisa mengubah cara pandang orang lain terhadapmu secara keseluruhan.',
+    'style-title': 'Upgrade Gaya',
+    'style-text': 'Ukuran yang pas adalah segalanya. Bahkan kaus putih polos akan terlihat premium jika ukurannya pas. Warna gelap (navy, hitam, charcoal) sangat cocok untuk menonjolkan warna kulitmu.',
+    'style-tip': '💡 Investasikan pada 3–4 pakaian dasar yang ukurannya pas daripada 10 pakaian yang kebesaran.',
+    'posture-title': 'Postur & Kehadiran',
+    'posture-text': 'Berdiri tegak, tarik bahu ke belakang, dagu sejajar dengan lantai. Postur tubuh mengubah bagaimana kamu terlihat DAN merasa. Latih perbaikan postur selama 5 menit setiap hari.',
+    'posture-tip': '💡 Postur yang baik saja bisa membuatmu terlihat 3–5kg lebih ringan dan 3cm lebih tinggi.',
+    'weekly-label': 'Jadwal Harian',
+    'weekly-title': 'Rencana Mingguan',
+    'task-chest': 'Dada & Trisep',
+    'task-back': 'Punggung & Bisep',
+    'task-legs': 'Kaki & Core',
+    'task-shoulders': 'Bahu & Lengan',
+    'task-fullbody': 'Full Body',
+    'task-cardio': 'Kardio / Jalan',
+    'task-rest': 'Istirahat & Pemulihan',
+    'task-skincare': 'Skincare Pagi/Malam',
+    'task-water': 'Air 2L',
+    'task-posture': 'Latihan Postur',
+    'task-hair': 'Perawatan Rambut',
+    'task-style-check': 'Cek Penampilan',
+    'task-style-plan': 'Perencanaan Gaya',
+    'task-reflect': 'Refleksi & Rencana',
+    'workout-label': 'Fase 02 — Bangun Tubuhmu',
+    'workout-title': 'Latihan',
+    'workout-sub': '5 hari latihan, 1 hari kardio, 1 hari istirahat total. Mulai dengan beban ringan dan tambah beban setiap minggu. Konsistensi selalu mengalahkan intensitas.',
+    'rest-title': '⚡ MINGGU — ISTIRAHAT TOTAL',
+    'rest-desc': 'Tidur 7–9 jam. Otot tumbuh saat istirahat, bukan saat latihan. Jalan santai, lakukan peregangan, makan bergizi, minum banyak air. Jangan pernah melewatkan hari istirahat — ini adalah bagian dari program.',
+    'nutrition-label': 'Fase 03 — Beri Nutrisi Tubuhmu',
+    'nutrition-title': 'Nutrisi<br>Dengan Apa Yang Ada',
+    'nutrition-sub': 'Kamu memiliki telur, ayam, nasi, dan susu — itu sebenarnya fondasi yang SANGAT BAGUS. Berikut cara memaksimalkan apa yang ada di rumah untuk pertumbuhan otot dan kesehatan kulit.',
+    'n-eggs': 'Telur',
+    'n-eggs-desc': 'Sumber protein lengkap. Makan 3–4 telur setiap hari. Direbus adalah cara terbaik untuk membentuk otot. Kuning telur mengandung B12, Vitamin D, dan biotin — semuanya penting untuk kulit dan rambut.',
+    'n-eggs-badge': 'Makan Setiap Hari',
+    'n-chicken': 'Ayam',
+    'n-chicken-desc': 'Protein tanpa lemak untuk pemulihan otot. Makan setelah latihan jika memungkinkan. Rebus atau panggang — hindari digoreng. 150–200g dada ayam per porsi sangat ideal.',
+    'n-chicken-badge': 'Setelah Latihan',
+    'n-rice': 'Nasi',
+    'n-rice-desc': 'Sumber karbohidrat utama — memberi energi untuk latihan. Makan lebih banyak di hari latihan, kurangi di hari istirahat. Nasi merah jika ada akan lebih baik.',
+    'n-rice-badge': 'Sumber Energi',
+    'n-milk': 'Susu',
+    'n-milk-desc': 'Kombinasi kalsium + protein. Sangat bagus untuk kepadatan tulang dan pemulihan otot. Minum 1–2 gelas setiap hari. Paling baik diminum sebelum tidur atau setelah latihan.',
+    'n-milk-badge': 'Sebelum Tidur',
+    'n-veg': 'Sayuran',
+    'n-veg-desc': 'Bahkan porsi kecil kangkung, bayam, atau sayur apa pun bisa menambah serat dan vitamin. Ini sangat membantu mencerahkan kulit dan memperlancar pencernaan.',
+    'n-veg-badge': 'Tambahkan Jika Bisa',
+    'n-water': 'Air',
+    'n-water-desc': 'Minimal 2–3 liter setiap hari. Dehidrasi menyebabkan kulit kusam dan memperlambat pertumbuhan otot. Mulailah pagi hari dengan 2 gelas air sebelum melakukan aktivitas lain.',
+    'n-water-badge': '2L+ Setiap Hari',
+    'meal-plan-title': '📋 RENCANA MAKAN HARIAN IDEAL',
+    'meal-morning': 'PAGI (6–7AM)',
+    'meal-morning-food': '2 telur rebus + 1 gelas susu + nasi',
+    'meal-lunch': 'SIANG (12PM)',
+    'meal-lunch-food': 'Nasi + ayam + sayur (lauk)',
+    'meal-snack': 'SORE (3PM)',
+    'meal-snack-food': '1–2 telur rebus (camilan sebelum latihan)',
+    'meal-dinner': 'MALAM (7PM)',
+    'meal-dinner-food': 'Nasi + protein (ayam/telur) + lauk',
+    'meal-sleep': 'SEBELUM TIDUR',
+    'meal-sleep-food': '1 gelas susu hangat',
+    'timeline-label': 'Perjalanan Ini',
+    'timeline-title': '12 Bulan<br>Transformasi',
+    'm1-month': 'Bulan 1–2',
+    'm1-title': 'Membangun Fondasi',
+    'm1-desc': 'Bangun kebiasaan. Mulai rutinitas skincare, minum air secara konsisten, mulai latihan 3–4x seminggu. Jangan mengharapkan hasil yang langsung terlihat — kamu sedang membangun fondasi. Kemenangan kecil itu penting.',
+    'm2-month': 'Bulan 3–4',
+    'm2-title': 'Tanda-Tanda Awal',
+    'm2-desc': 'Kulit mulai terlihat lebih bersih. Tubuh mulai berubah bentuk. Energi meningkat. Orang lain mungkin belum menyadari tapi KAMU akan merasakannya. Tetap konsisten. Tambah beban pada latihanmu.',
+    'm3-month': 'Bulan 5–6',
+    'm3-title': 'Perubahan yang Terlihat',
+    'm3-desc': 'Orang-orang di sekitarmu mulai menyadarinya. Pakaian terasa lebih pas. Warna kulit lebih merata. Postur tubuh membaik. Di sinilah motivasi akan meningkat secara alami — pertahankan momentum ini.',
+    'm4-month': 'Bulan 7–9',
+    'm4-title': 'Peningkatan Besar',
+    'm4-desc': 'Perkembangan otot yang signifikan mulai terlihat. Kulit tampak sehat alami. Selera gayamu meningkat. Kepercayaan diri naik. Fase ini adalah saat di mana transformasi nyatamu menjadi sangat jelas bagi semua orang.',
+    'm5-month': 'Bulan 10–12',
+    'm5-title': 'Dirimu yang Baru',
+    'm5-desc': 'Setelah 1 tahun konsistensi — tubuh lebih baik, kulit lebih bersih, postur lebih baik, gaya lebih tajam. Kamu tidak akan mengenali dirimu yang dulu. Ini baru permulaan — sekarang saatnya kamu naik ke level selanjutnya.',
+    'tracker-label': 'Fase 04 — Kedisiplinan',
+    'tracker-title': 'Tracker<br>365 Hari',
+    'tracker-sub': 'Klik pada hari untuk menandainya selesai. Bangun rekor (streak) harianmu. Jangan putuskan rantainya.',
+    'legend-done': 'Selesai',
+    'legend-pending': 'Tertunda',
+    'streak-label': 'Rekor:',
+    'streak-days': 'hari',
+    'reset-btn': 'Reset Semua',
+    'today-btn': '✓ Tandai Hari Ini',
+    'footer-word': 'Disiplin',
+    'footer-sub': '365 hari. Satu versi pada satu waktu.',
+    'close': 'TUTUP',
+    'confirm-reset': 'Reset semua progres? Aksi ini tidak dapat dibatalkan.',
+    'toast-done': 'Hari berhasil ditandai! 🔥',
+    'toast-undone': 'Tanda dihapus.',
+    'toast-today': 'Hari ini ditandai selesai! Terus semangat! 🔥',
+    'toast-reset': 'Tracker telah direset.',
   }
+};
 
-  const TOTAL_DAYS = 365;
-  let completed = JSON.parse(localStorage.getItem('tracker_days') || '[]');
+// ─── LANGUAGE ────────────────────────────────────────────────────────────────
+let currentLang = localStorage.getItem('lang') || 'en';
 
-  function buildTracker() {
-    const grid = document.getElementById('trackerGrid');
-    grid.innerHTML = '';
-    const today = new Date();
-    const startOfYear = new Date(today.getFullYear(), 0, 1);
-    for (let i = 0; i < TOTAL_DAYS; i++) {
-      const cell = document.createElement('div');
-      cell.className = 'tracker-cell';
-      cell.title = `Hari ${i + 1}`;
-      const daysDiff = Math.floor((today - startOfYear) / (1000 * 60 * 60 * 24));
-      if (i === daysDiff) cell.classList.add('today');
-      if (completed.includes(i)) cell.classList.add('done');
-      cell.addEventListener('click', () => toggleDay(i, cell));
-      grid.appendChild(cell);
-    }
-    updateStats();
-  }
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  document.getElementById('btnEN').classList.toggle('active', lang === 'en');
+  document.getElementById('btnID').classList.toggle('active', lang === 'id');
+  applyTranslations();
+}
 
-  function toggleDay(i, cell) {
-    if (completed.includes(i)) {
-      completed = completed.filter(d => d !== i);
-      cell.classList.remove('done');
-    } else {
-      completed.push(i);
-      cell.classList.add('done');
-    }
-    localStorage.setItem('tracker_days', JSON.stringify(completed));
-    updateStats();
-  }
+function t(key) { return T[currentLang][key] || T['en'][key] || key; }
 
-  function updateStats() {
-    const streak = calculateStreak();
-    document.getElementById('streak-count').textContent = `🔥 Rekor: ${streak} hari`;
-    document.getElementById('progress-text').textContent = `${completed.length} / ${TOTAL_DAYS} hari selesai (${Math.round(completed.length/TOTAL_DAYS*100)}%)`;
-  }
-
-  function calculateStreak() {
-    if (completed.length === 0) return 0;
-    const sorted = [...completed].sort((a, b) => b - a);
-    const today = new Date();
-    const startOfYear = new Date(today.getFullYear(), 0, 1);
-    const todayIdx = Math.floor((today - startOfYear) / (1000 * 60 * 60 * 24));
-    let streak = 0;
-    let current = todayIdx;
-    for (let d of sorted) {
-      if (d === current || d === current - 1) { streak++; current = d; }
-      else break;
-    }
-    return streak;
-  }
-
-  function resetTracker() {
-    if (confirm('Reset semua progres? Aksi ini tidak dapat dibatalkan.')) {
-      completed = [];
-      localStorage.removeItem('tracker_days');
-      buildTracker();
-    }
-  }
-
-  buildTracker();
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.glow-card, .workout-card, .nutrition-card, .timeline-item').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
+function applyTranslations() {
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.getAttribute('data-t');
+    const val = t(key);
+    if (val.includes('<br>')) { el.innerHTML = val; }
+    else { el.textContent = val; }
   });
+}
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+function navScroll(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+// ─── TOAST ───────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ─── MODAL ───────────────────────────────────────────────────────────────────
+const CARD_MODALS = {
+  morning: {
+    icon: '🌅',
+    titleKey: 'morning-title',
+    subKey: null,
+    contentFn: () => `
+      <p>${t('morning-text')}</p>
+      <ul>
+        <li><span>Step 1:</span> Gentle face wash (30s)</li>
+        <li><span>Step 2:</span> Toner — pat don't rub</li>
+        <li><span>Step 3:</span> Vitamin C serum (optional but powerful)</li>
+        <li><span>Step 4:</span> Moisturizer with SPF 30–50</li>
+        <li><span>Step 5:</span> Lip balm</li>
+      </ul>
+      <p style="margin-top:16px; color:var(--gold-light); font-size:12px;">${t('morning-tip')}</p>`
+  },
+  night: {
+    icon: '🌙',
+    titleKey: 'night-title',
+    contentFn: () => `
+      <p>${t('night-text')}</p>
+      <ul>
+        <li><span>Step 1:</span> Oil cleanser or micellar water</li>
+        <li><span>Step 2:</span> Foam/gel face wash</li>
+        <li><span>Step 3:</span> Toner</li>
+        <li><span>Step 4:</span> Niacinamide serum (wait 1 min)</li>
+        <li><span>Step 5:</span> Night moisturizer</li>
+      </ul>
+      <p style="margin-top:16px; color:var(--gold-light); font-size:12px;">${t('night-tip')}</p>`
+  },
+  hydration: {
+    icon: '💧',
+    titleKey: 'hydration-title',
+    contentFn: () => `
+      <p>${t('hydration-text')}</p>
+      <ul>
+        <li><span>7AM:</span> 2 glasses on waking up</li>
+        <li><span>12PM:</span> 2 glasses with lunch</li>
+        <li><span>3PM:</span> 2 glasses pre-workout</li>
+        <li><span>7PM:</span> 2 glasses with dinner</li>
+        <li><span>Sleep:</span> 1 glass before bed</li>
+      </ul>
+      <p style="margin-top:16px; color:var(--gold-light); font-size:12px;">${t('hydration-tip')}</p>`
+  },
+  grooming: {
+    icon: '✂️',
+    titleKey: 'grooming-title',
+    contentFn: () => `
+      <p>${t('grooming-text')}</p>
+      <ul>
+        <li><span>Hair:</span> Cut every 3–4 weeks. Same barber. Same style perfected.</li>
+        <li><span>Eyebrows:</span> Trim strays only. Never over-pluck.</li>
+        <li><span>Nails:</span> Trim weekly. File edges.</li>
+        <li><span>Nose/Ear:</span> Check monthly.</li>
+        <li><span>Teeth:</span> Brush 2x daily. Floss at night.</li>
+      </ul>
+      <p style="margin-top:16px; color:var(--gold-light); font-size:12px;">${t('grooming-tip')}</p>`
+  },
+  style: {
+    icon: '👕',
+    titleKey: 'style-title',
+    contentFn: () => `
+      <p>${t('style-text')}</p>
+      <ul>
+        <li><span>Tops:</span> Shoulder seam = shoulder edge. Not hanging off.</li>
+        <li><span>Pants:</span> One break at shoe max. No pooling.</li>
+        <li><span>Colors:</span> Navy, black, white, olive, charcoal.</li>
+        <li><span>Shoes:</span> Clean, simple. White or black sneakers.</li>
+        <li><span>Fragrance:</span> One signature scent. Not too much.</li>
+      </ul>
+      <p style="margin-top:16px; color:var(--gold-light); font-size:12px;">${t('style-tip')}</p>`
+  },
+  posture: {
+    icon: '🧘',
+    titleKey: 'posture-title',
+    contentFn: () => `
+      <p>${t('posture-text')}</p>
+      <ul>
+        <li><span>Exercise 1:</span> Wall angels — 2 sets × 10 reps</li>
+        <li><span>Exercise 2:</span> Chin tucks — 3 sets × 15 reps</li>
+        <li><span>Exercise 3:</span> Chest stretch in doorway — 60s</li>
+        <li><span>Reminder:</span> Set phone alarm every 2hrs to check posture</li>
+        <li><span>Goal:</span> Ears above shoulders, shoulders above hips</li>
+      </ul>
+      <p style="margin-top:16px; color:var(--gold-light); font-size:12px;">${t('posture-tip')}</p>`
+  }
+};
+
+const DAY_MODALS = {
+  mon: { day: 'MONDAY', tasks: ['Chest & Triceps workout', 'Skincare AM: wash + SPF', 'Skincare PM: cleanse + serum + moisturize', 'Drink 2L+ water', 'Posture check throughout day'] },
+  tue: { day: 'TUESDAY', tasks: ['Back & Biceps workout', 'Skincare AM/PM', 'Posture practice (5 min)', 'Drink 2L+ water', 'Protein-rich dinner'] },
+  wed: { day: 'WEDNESDAY', tasks: ['Legs & Core workout', 'Skincare AM/PM', 'Hair care / wash', 'Drink 2L+ water', 'Check nail/grooming status'] },
+  thu: { day: 'THURSDAY', tasks: ['Shoulders & Arms workout', 'Skincare AM/PM', 'Drink 2L+ water', 'Plan Friday outfit', 'Sleep before 11PM'] },
+  fri: { day: 'FRIDAY', tasks: ['Full Body workout', 'Skincare AM/PM', 'Style check in mirror', 'Drink 2L+ water', 'Prep weekend meals'] },
+  sat: { day: 'SATURDAY', tasks: ['Cardio / Walk 30 min', 'Skincare AM/PM', 'Style planning for next week', 'Grocery run (eggs, chicken, milk)', 'Rest well tonight'] },
+  sun: { day: 'SUNDAY', tasks: ['Full rest — no gym', 'Skincare AM/PM', 'Reflect on this week\'s wins', 'Plan next week\'s schedule', 'Sleep 8+ hours'] }
+};
+
+const NUTRITION_MODALS = {
+  eggs: { icon: '🥚', title: 'Eggs', content: 'Complete protein with all essential amino acids. 6g protein per egg. Biotin in yolk strengthens hair. Eat 3–4 daily — boiled, scrambled, or as omelette.' },
+  chicken: { icon: '🍗', title: 'Chicken', content: 'Chicken breast: ~31g protein per 100g. Low fat. Boil in water with salt for easy meal prep. Eat 150–200g per meal post-workout for optimal muscle repair.' },
+  rice: { icon: '🍚', title: 'Rice', content: 'Fast carbs = fast fuel. Eat bigger portions on workout days to replenish glycogen. On rest days, reduce by half. Brown rice = more fiber + longer satiety.' },
+  milk: { icon: '🥛', title: 'Milk', content: 'Full fat milk: 8g protein + calcium + Vitamin D per glass. Casein protein in milk is slow-digesting — perfect before bed for overnight muscle repair.' },
+  veg: { icon: '🥦', title: 'Vegetables', content: 'Spinach, kale, broccoli, bean sprouts — any veggie counts. Vitamins A & C help produce collagen. Fiber clears skin from inside. Even 100g a day makes a difference.' },
+  water: { icon: '💧', title: 'Water', content: 'Your skin is 64% water. Dehydration = dull, tight, wrinkled skin. 2–3L daily minimum. Add a pinch of salt if you sweat a lot (training days) to maintain electrolytes.' }
+};
+
+function openCardModal(key) {
+  const m = CARD_MODALS[key];
+  document.getElementById('modal-title').textContent = m.icon + ' ' + t(m.titleKey);
+  document.getElementById('modal-sub').textContent = 'Skin & Lifestyle Protocol';
+  document.getElementById('modal-body').innerHTML = m.contentFn();
+  document.querySelector('.modal-close').textContent = t('close');
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function openDayModal(key) {
+  const d = DAY_MODALS[key];
+  document.getElementById('modal-title').textContent = '📅 ' + d.day;
+  document.getElementById('modal-sub').textContent = 'Daily Checklist';
+  const items = d.tasks.map(task => `<li><span>→</span> ${task}</li>`).join('');
+  document.getElementById('modal-body').innerHTML = `<ul>${items}</ul>`;
+  document.querySelector('.modal-close').textContent = t('close');
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function openNutritionModal(key) {
+  const n = NUTRITION_MODALS[key];
+  document.getElementById('modal-title').textContent = n.icon + ' ' + n.title;
+  document.getElementById('modal-sub').textContent = 'Nutrition Detail';
+  document.getElementById('modal-body').innerHTML = `<p>${n.content}</p>`;
+  document.querySelector('.modal-close').textContent = t('close');
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+// ─── TRACKER ──────────────────────────────────────────────────────────────────
+const TOTAL_DAYS = 365;
+let completed = JSON.parse(localStorage.getItem('tracker_days') || '[]');
+
+function getStartDate() {
+  const saved = localStorage.getItem('tracker_start');
+  if (saved) return new Date(saved);
+  const d = new Date(); d.setHours(0,0,0,0);
+  localStorage.setItem('tracker_start', d.toISOString());
+  return d;
+}
+
+const START_DATE = getStartDate();
+
+function getDayIndex() {
+  const now = new Date(); now.setHours(0,0,0,0);
+  return Math.floor((now - START_DATE) / (1000 * 60 * 60 * 24));
+}
+
+function buildTracker() {
+  const grid = document.getElementById('trackerGrid');
+  grid.innerHTML = '';
+  const todayIdx = getDayIndex();
+
+  for (let i = 0; i < TOTAL_DAYS; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'tracker-cell';
+
+    const dateObj = new Date(START_DATE);
+    dateObj.setDate(dateObj.getDate() + i);
+    const dateStr = dateObj.toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { month:'short', day:'numeric' });
+
+    const tip = document.createElement('div');
+    tip.className = 'day-tooltip';
+    tip.textContent = `Day ${i+1} · ${dateStr}`;
+    cell.appendChild(tip);
+
+    const num = document.createElement('span');
+    num.textContent = i + 1;
+    cell.appendChild(num);
+
+    if (i === todayIdx) cell.classList.add('today');
+    if (completed.includes(i)) cell.classList.add('done');
+    if (i > todayIdx) cell.classList.add('future');
+
+    cell.addEventListener('click', () => {
+      if (i > todayIdx) return;
+      toggleDay(i, cell);
+    });
+
+    grid.appendChild(cell);
+  }
+  updateStats();
+}
+
+function toggleDay(i, cell) {
+  if (completed.includes(i)) {
+    completed = completed.filter(d => d !== i);
+    cell.classList.remove('done');
+    showToast(t('toast-undone'));
+  } else {
+    completed.push(i);
+    cell.classList.add('done');
+    showToast(t('toast-done'));
+  }
+  localStorage.setItem('tracker_days', JSON.stringify(completed));
+  updateStats();
+}
+
+function markTodayDone() {
+  const todayIdx = getDayIndex();
+  if (!completed.includes(todayIdx)) {
+    completed.push(todayIdx);
+    localStorage.setItem('tracker_days', JSON.stringify(completed));
+    buildTracker();
+    showToast(t('toast-today'));
+  }
+}
+
+function updateStats() {
+  const streak = calculateStreak();
+  document.getElementById('streak-num').textContent = streak;
+  const pct = Math.round(completed.length / TOTAL_DAYS * 100);
+  document.getElementById('progress-text').textContent = `${completed.length} / ${TOTAL_DAYS} ${t('streak-days')} (${pct}%)`;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function calculateStreak() {
+  if (completed.length === 0) return 0;
+  const sorted = [...completed].sort((a, b) => b - a);
+  const todayIdx = getDayIndex();
+  let streak = 0;
+  let current = todayIdx;
+  for (let d of sorted) {
+    if (d === current || d === current - 1) { streak++; current = d; }
+    else break;
+  }
+  return streak;
+}
+
+function resetTracker() {
+  if (confirm(t('confirm-reset'))) {
+    completed = [];
+    localStorage.removeItem('tracker_days');
+    buildTracker();
+    showToast(t('toast-reset'));
+  }
+}
+
+// ─── SCROLL ANIMATIONS ────────────────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.glow-card, .workout-card, .nutrition-card, .timeline-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+setLang(currentLang);
+buildTracker();
 </script>
 </body>
 </html>
