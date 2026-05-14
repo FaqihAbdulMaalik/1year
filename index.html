@@ -3,7 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>1 Year</title>
+<title>1 Year — Transformation</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#C9A96E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="1 Year">
+<link rel="apple-touch-icon" href="icons/icon-192x192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="Your 365-day transformation tracker. Workout, skincare, nutrition & discipline.">
+
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -292,7 +303,6 @@
   .tracker-cell:hover { border-color: var(--gold); color: var(--gold); }
   .tracker-cell.done { background: rgba(201,169,110,0.15); border-color: var(--gold); color: var(--gold); }
   .tracker-cell.today { border-color: var(--gold); box-shadow: 0 0 8px rgba(201,169,110,0.3); }
-  .tracker-cell.future { opacity: 0.4; cursor: not-allowed; }
 
   .tracker-legend { display: flex; gap: 24px; margin-top: 16px; font-size: 11px; color: var(--muted); align-items: center; }
   .legend-dot { width: 10px; height: 10px; display: inline-block; margin-right: 6px; border-radius: 2px; }
@@ -1138,52 +1148,34 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDi
 const TOTAL_DAYS = 365;
 let completed = JSON.parse(localStorage.getItem('tracker_days') || '[]');
 
-function getStartDate() {
-  const saved = localStorage.getItem('tracker_start');
-  if (saved) return new Date(saved);
-  const d = new Date(); d.setHours(0,0,0,0);
-  localStorage.setItem('tracker_start', d.toISOString());
-  return d;
-}
-
-const START_DATE = getStartDate();
-
-function getDayIndex() {
+function getTodayIndex() {
+  const start = new Date(new Date().getFullYear(), 0, 1);
   const now = new Date(); now.setHours(0,0,0,0);
-  return Math.floor((now - START_DATE) / (1000 * 60 * 60 * 24));
+  return Math.floor((now - start) / (1000 * 60 * 60 * 24));
 }
 
 function buildTracker() {
-  const grid = document.getElementById('trackerGrid');
-  grid.innerHTML = '';
-  const todayIdx = getDayIndex();
+  const grid = document.getElementById("trackerGrid");
+  grid.innerHTML = "";
+  const todayIdx = getTodayIndex();
+  const startOfYear = new Date(new Date().getFullYear(), 0, 1);
 
   for (let i = 0; i < TOTAL_DAYS; i++) {
-    const cell = document.createElement('div');
-    cell.className = 'tracker-cell';
-
-    const dateObj = new Date(START_DATE);
+    const cell = document.createElement("div");
+    cell.className = "tracker-cell";
+    const dateObj = new Date(startOfYear);
     dateObj.setDate(dateObj.getDate() + i);
-    const dateStr = dateObj.toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { month:'short', day:'numeric' });
-
-    const tip = document.createElement('div');
-    tip.className = 'day-tooltip';
-    tip.textContent = `Day ${i+1} · ${dateStr}`;
+    const dateStr = dateObj.toLocaleDateString(currentLang === "id" ? "id-ID" : "en-US", { month:"short", day:"numeric" });
+    const tip = document.createElement("div");
+    tip.className = "day-tooltip";
+    tip.textContent = "Day " + (i+1) + " � " + dateStr;
     cell.appendChild(tip);
-
-    const num = document.createElement('span');
+    const num = document.createElement("span");
     num.textContent = i + 1;
     cell.appendChild(num);
-
-    if (i === todayIdx) cell.classList.add('today');
-    if (completed.includes(i)) cell.classList.add('done');
-    if (i > todayIdx) cell.classList.add('future');
-
-    cell.addEventListener('click', () => {
-      if (i > todayIdx) return;
-      toggleDay(i, cell);
-    });
-
+    if (i === todayIdx) cell.classList.add("today");
+    if (completed.includes(i)) cell.classList.add("done");
+    cell.addEventListener("click", () => toggleDay(i, cell));
     grid.appendChild(cell);
   }
   updateStats();
@@ -1204,7 +1196,7 @@ function toggleDay(i, cell) {
 }
 
 function markTodayDone() {
-  const todayIdx = getDayIndex();
+  const todayIdx = getTodayIndex();
   if (!completed.includes(todayIdx)) {
     completed.push(todayIdx);
     localStorage.setItem('tracker_days', JSON.stringify(completed));
@@ -1224,7 +1216,7 @@ function updateStats() {
 function calculateStreak() {
   if (completed.length === 0) return 0;
   const sorted = [...completed].sort((a, b) => b - a);
-  const todayIdx = getDayIndex();
+  const todayIdx = getTodayIndex();
   let streak = 0;
   let current = todayIdx;
   for (let d of sorted) {
@@ -1263,6 +1255,41 @@ document.querySelectorAll('.glow-card, .workout-card, .nutrition-card, .timeline
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 setLang(currentLang);
 buildTracker();
+
+// ─── SERVICE WORKER ───────────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
+// ─── PWA INSTALL PROMPT ───────────────────────────────────────────────────────
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  setTimeout(() => { if (deferredPrompt) showInstallBanner(); }, 3000);
+});
+
+function showInstallBanner() {
+  if (document.getElementById('installBanner')) return;
+  const banner = document.createElement('div');
+  banner.id = 'installBanner';
+  banner.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1A1A1A;border:1px solid #C9A96E;color:#F5F0E8;padding:14px 24px;display:flex;gap:16px;align-items:center;font-family:DM Sans,sans-serif;font-size:13px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.5);white-space:nowrap;';
+  banner.innerHTML = '<span>📲 Install as App</span><button onclick="installApp()" style="background:#C9A96E;color:#0A0A0A;border:none;padding:6px 16px;font-weight:700;font-size:12px;letter-spacing:1px;cursor:pointer;">INSTALL</button><button onclick="document.getElementById(\'installBanner\').remove()" style="background:transparent;color:#888;border:none;cursor:pointer;font-size:18px;">×</button>';
+  document.body.appendChild(banner);
+}
+
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+      deferredPrompt = null;
+      const b = document.getElementById('installBanner');
+      if (b) b.remove();
+    });
+  }
+}
 </script>
 </body>
 </html>
