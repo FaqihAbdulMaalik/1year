@@ -3,18 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>1 Year — Transformation</title>
-
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#C9A96E">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="1 Year">
-<link rel="apple-touch-icon" href="icons/icon-192x192.png">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="description" content="Your 365-day transformation tracker. Workout, skincare, nutrition & discipline.">
-
+<title>1 Year</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -303,6 +292,7 @@
   .tracker-cell:hover { border-color: var(--gold); color: var(--gold); }
   .tracker-cell.done { background: rgba(201,169,110,0.15); border-color: var(--gold); color: var(--gold); }
   .tracker-cell.today { border-color: var(--gold); box-shadow: 0 0 8px rgba(201,169,110,0.3); }
+  .tracker-cell.future { opacity: 0.4; cursor: not-allowed; }
 
   .tracker-legend { display: flex; gap: 24px; margin-top: 16px; font-size: 11px; color: var(--muted); align-items: center; }
   .legend-dot { width: 10px; height: 10px; display: inline-block; margin-right: 6px; border-radius: 2px; }
@@ -560,6 +550,11 @@
     <div class="divider"></div>
     <p style="color:var(--muted); font-size:14px; max-width:560px; line-height:1.8; margin-bottom:0;" data-t="workout-sub">5 training days, 1 cardio day, 1 full rest day. Start light and add weight weekly. Consistency always beats intensity.</p>
 
+<div class="workout-section" id="workout">
+  <div class="workout-inner">
+    <div class="section-label" data-t="workout-label">Phase 02 — Build Your Body</div>
+    <div class="section-title" data-t="workout-title">Workout</div>
+    <div class="divider"></div>
     <div class="workout-grid">
       <div class="workout-card">
         <div class="workout-day-num">01</div>
@@ -581,7 +576,7 @@
         <div class="workout-day-name">Tuesday</div>
         <div class="workout-focus">Back & Biceps</div>
         <ul class="exercise-list">
-          <li><span class="exercise-name">Pull-Ups</span><span class="exercise-sets">4 × 15</span></li>
+          <li><span class="exercise-name">Pull Ups</span><span class="exercise-sets">4 × 15</span></li>
           <li><span class="exercise-name">Lat Pulldown</span><span class="exercise-sets">4 × 10</span></li>
           <li><span class="exercise-name">One Arm Dumbbell Row</span><span class="exercise-sets">4 × 10</span></li>
           <li><span class="exercise-name">Cable Row</span><span class="exercise-sets">3 × 12</span></li>
@@ -595,14 +590,13 @@
         <div class="workout-day-name">Wednesday</div>
         <div class="workout-focus">Legs & Core</div>
         <ul class="exercise-list">
-          <li><span class="exercise-name">Goblet Squat</span><span class="exercise-sets">4 × 10</span></li>
-          <li><span class="exercise-name">Squat</span><span class="exercise-sets">4 × 10</span></li>
-          <li><span class="exercise-name">Romanian Deadlift</span><span class="exercise-sets">4 × 10</span></li>
-          <li><span class="exercise-name">Standing Calf Raise</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Bodyweight Squat / Goblet Squat</span><span class="exercise-sets">4 × 15</span></li>
+          <li><span class="exercise-name">Glute Bridge</span><span class="exercise-sets">4 × 15</span></li>
+          <li><span class="exercise-name">Wall Sit</span><span class="exercise-sets">3 × 45–60s</span></li>
           <li><span class="exercise-name">Walking Lunges</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Standing Calf Raise</span><span class="exercise-sets">3 × 15</span></li>
           <li><span class="exercise-name">Plank</span><span class="exercise-sets">3 × 60s</span></li>
           <li><span class="exercise-name">Russian Twist</span><span class="exercise-sets">2 × 25</span></li>
-          <li><span class="exercise-name">Bulgarian Split Squat</span><span class="exercise-sets">3 × 12</span></li>
         </ul>
       </div>
       <div class="workout-card">
@@ -612,11 +606,12 @@
         <ul class="exercise-list">
           <li><span class="exercise-name">Shoulder Press</span><span class="exercise-sets">4 × 8</span></li>
           <li><span class="exercise-name">Lateral Raise</span><span class="exercise-sets">4 × 12</span></li>
-          <li><span class="exercise-name">Rear Delt Fly</span><span class="exercise-sets">3 × 15</span></li>
-          <li><span class="exercise-name">Preacher Curl</span><span class="exercise-sets">3 × 10</span></li>
+          <li><span class="exercise-name">Reverse Snow Angel</span><span class="exercise-sets">3 × 15</span></li>
           <li><span class="exercise-name">Face Pull</span><span class="exercise-sets">4 × 8</span></li>
-          <li><span class="exercise-name">Overhead Tricep Ext</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Preacher Curl</span><span class="exercise-sets">3 × 10</span></li>
           <li><span class="exercise-name">Dumbbell Curl</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Overhead Tricep Extension</span><span class="exercise-sets">3 × 12</span></li>
+          <li><span class="exercise-name">Tricep Pushdown</span><span class="exercise-sets">3 × 12</span></li>
         </ul>
       </div>
       <div class="workout-card">
@@ -647,10 +642,13 @@
         </ul>
       </div>
     </div>
-
     <div style="margin-top:32px; padding:24px; border:1px solid rgba(201,169,110,0.15); background:rgba(201,169,110,0.03);">
-      <div style="font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:3px; color:var(--gold); margin-bottom:12px;" data-t="rest-title">⚡ SUNDAY — FULL REST</div>
-      <p style="font-size:13px; color:var(--muted); line-height:1.7;" data-t="rest-desc">Sleep 7–9 hours. Muscles grow during rest, not during training. Walk, stretch, eat clean, drink water. Never skip rest day — it's part of the program.</p>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:3px; color:var(--gold); margin-bottom:12px;" data-t="rest-title">
+        ⚡ SUNDAY — FULL REST
+      </div>
+      <p style="font-size:13px; color:var(--muted); line-height:1.7;" data-t="rest-desc">
+        Sleep 7–9 hours. Muscles grow during rest, not during training. Walk, stretch, eat clean, drink water. Never skip rest day — it's part of the program.
+      </p>
     </div>
   </div>
 </div>
@@ -1148,34 +1146,52 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDi
 const TOTAL_DAYS = 365;
 let completed = JSON.parse(localStorage.getItem('tracker_days') || '[]');
 
-function getTodayIndex() {
-  const start = new Date(new Date().getFullYear(), 0, 1);
+function getStartDate() {
+  const saved = localStorage.getItem('tracker_start');
+  if (saved) return new Date(saved);
+  const d = new Date(); d.setHours(0,0,0,0);
+  localStorage.setItem('tracker_start', d.toISOString());
+  return d;
+}
+
+const START_DATE = getStartDate();
+
+function getDayIndex() {
   const now = new Date(); now.setHours(0,0,0,0);
-  return Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  return Math.floor((now - START_DATE) / (1000 * 60 * 60 * 24));
 }
 
 function buildTracker() {
-  const grid = document.getElementById("trackerGrid");
-  grid.innerHTML = "";
-  const todayIdx = getTodayIndex();
-  const startOfYear = new Date(new Date().getFullYear(), 0, 1);
+  const grid = document.getElementById('trackerGrid');
+  grid.innerHTML = '';
+  const todayIdx = getDayIndex();
 
   for (let i = 0; i < TOTAL_DAYS; i++) {
-    const cell = document.createElement("div");
-    cell.className = "tracker-cell";
-    const dateObj = new Date(startOfYear);
+    const cell = document.createElement('div');
+    cell.className = 'tracker-cell';
+
+    const dateObj = new Date(START_DATE);
     dateObj.setDate(dateObj.getDate() + i);
-    const dateStr = dateObj.toLocaleDateString(currentLang === "id" ? "id-ID" : "en-US", { month:"short", day:"numeric" });
-    const tip = document.createElement("div");
-    tip.className = "day-tooltip";
-    tip.textContent = "Day " + (i+1) + " � " + dateStr;
+    const dateStr = dateObj.toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { month:'short', day:'numeric' });
+
+    const tip = document.createElement('div');
+    tip.className = 'day-tooltip';
+    tip.textContent = `Day ${i+1} · ${dateStr}`;
     cell.appendChild(tip);
-    const num = document.createElement("span");
+
+    const num = document.createElement('span');
     num.textContent = i + 1;
     cell.appendChild(num);
-    if (i === todayIdx) cell.classList.add("today");
-    if (completed.includes(i)) cell.classList.add("done");
-    cell.addEventListener("click", () => toggleDay(i, cell));
+
+    if (i === todayIdx) cell.classList.add('today');
+    if (completed.includes(i)) cell.classList.add('done');
+    if (i > todayIdx) cell.classList.add('future');
+
+    cell.addEventListener('click', () => {
+      if (i > todayIdx) return;
+      toggleDay(i, cell);
+    });
+
     grid.appendChild(cell);
   }
   updateStats();
@@ -1196,7 +1212,7 @@ function toggleDay(i, cell) {
 }
 
 function markTodayDone() {
-  const todayIdx = getTodayIndex();
+  const todayIdx = getDayIndex();
   if (!completed.includes(todayIdx)) {
     completed.push(todayIdx);
     localStorage.setItem('tracker_days', JSON.stringify(completed));
@@ -1216,7 +1232,7 @@ function updateStats() {
 function calculateStreak() {
   if (completed.length === 0) return 0;
   const sorted = [...completed].sort((a, b) => b - a);
-  const todayIdx = getTodayIndex();
+  const todayIdx = getDayIndex();
   let streak = 0;
   let current = todayIdx;
   for (let d of sorted) {
@@ -1255,41 +1271,6 @@ document.querySelectorAll('.glow-card, .workout-card, .nutrition-card, .timeline
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 setLang(currentLang);
 buildTracker();
-
-// ─── SERVICE WORKER ───────────────────────────────────────────────────────────
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
-  });
-}
-
-// ─── PWA INSTALL PROMPT ───────────────────────────────────────────────────────
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  setTimeout(() => { if (deferredPrompt) showInstallBanner(); }, 3000);
-});
-
-function showInstallBanner() {
-  if (document.getElementById('installBanner')) return;
-  const banner = document.createElement('div');
-  banner.id = 'installBanner';
-  banner.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1A1A1A;border:1px solid #C9A96E;color:#F5F0E8;padding:14px 24px;display:flex;gap:16px;align-items:center;font-family:DM Sans,sans-serif;font-size:13px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.5);white-space:nowrap;';
-  banner.innerHTML = '<span>📲 Install as App</span><button onclick="installApp()" style="background:#C9A96E;color:#0A0A0A;border:none;padding:6px 16px;font-weight:700;font-size:12px;letter-spacing:1px;cursor:pointer;">INSTALL</button><button onclick="document.getElementById(\'installBanner\').remove()" style="background:transparent;color:#888;border:none;cursor:pointer;font-size:18px;">×</button>';
-  document.body.appendChild(banner);
-}
-
-function installApp() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => {
-      deferredPrompt = null;
-      const b = document.getElementById('installBanner');
-      if (b) b.remove();
-    });
-  }
-}
 </script>
 </body>
 </html>
